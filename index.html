@@ -1,3 +1,488 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Tia Dompet membantu menyiapkan video promosi produk."><title>Tia Dompet — Video Promosi Produk</title><style>
-:root{--wine:#781d32;--red:#c72d43;--ink:#171419;--muted:#716b70;--cream:#fffaf8;--line:#eee2e3}*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,sans-serif;color:var(--ink);background:var(--cream)}header{padding:18px 6vw;display:flex;justify-content:space-between;align-items:center;background:white;border-bottom:1px solid var(--line)}.brand{font-weight:850;font-size:1.2rem;color:var(--wine)}nav{display:flex;gap:18px;flex-wrap:wrap}a{color:var(--wine);text-decoration:none;font-weight:650}main{max-width:1050px;margin:auto;padding:58px 22px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}.pill{background:#f5e5e8;color:var(--wine);padding:6px 13px;border-radius:25px;font-weight:700;font-size:.85rem}h1{font-size:clamp(2.4rem,6vw,4rem);line-height:1.08;letter-spacing:-.04em}p{color:var(--muted)}.lead{font-size:1.12rem}.panel,.step{background:white;border:1px solid var(--line);border-radius:22px;padding:24px}.wallet{text-align:center;font-size:5rem}.panel h2{color:var(--wine)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px}.num{color:var(--red);font-size:1.5rem;font-weight:900}section{margin-top:55px}footer{background:white;border-top:1px solid var(--line);padding:22px 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;color:var(--muted)}@media(max-width:700px){header,.hero{display:flex;flex-direction:column;align-items:flex-start}.steps{grid-template-columns:1fr}main{padding-top:35px}}
-</style></head><body><header><a class="brand" href="./">👛 Tia Dompet</a><nav><a href="#cara">Cara kerja</a><a href="terms.html">Ketentuan</a><a href="privacy.html">Privasi</a></nav></header><main><div class="hero"><div><span class="pill">Asisten konten promosi</span><h1>Siapkan video produk. Lebih praktis.</h1><p class="lead">Tia Dompet membantu menyiapkan materi video promosi dari foto produk, teks, dan narasi. Pengguna tetap meninjau konten dan menyelesaikan publikasi melalui aplikasi TikTok.</p></div><div class="panel"><div class="wallet">👛</div><h2>Konten tetap dalam kendali Anda</h2><p>Periksa video, caption, dan akun tujuan sebelum melanjutkan. Publikasi akhir memerlukan tindakan pengguna.</p></div></div><section id="cara"><h2>Bagaimana cara kerjanya?</h2><div class="steps"><div class="step"><div class="num">01</div><h3>Siapkan foto</h3><p>Pilih foto produk untuk materi promosi.</p></div><div class="step"><div class="num">02</div><h3>Buat video</h3><p>Sistem menyusun video vertikal, teks promosi, dan narasi suara.</p></div><div class="step"><div class="num">03</div><h3>Tinjau dan bagikan</h3><p>Periksa hasilnya. Integrasi TikTok hanya aktif setelah konfigurasi dan persetujuan yang diperlukan.</p></div></div></section><section><h2>Integrasi TikTok</h2><p>Fitur koneksi dan pengiriman konten ke TikTok hanya akan diaktifkan setelah konfigurasi OAuth, izin API, dan persetujuan TikTok selesai. Situs ini tidak meminta kata sandi TikTok. Otorisasi dilakukan melalui halaman resmi TikTok apabila fitur tersedia.</p></section></main><footer><span>© Tia Dompet</span><span><a href="terms.html">Ketentuan Layanan</a> · <a href="privacy.html">Kebijakan Privasi</a></span></footer></body></html>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#190d12">
+<meta name="description" content="Tia Dompet - Platform pengelolaan dan persiapan konten video promosi produk.">
+<title>Tia Dompet — Smart Content Studio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#10090d;
+  --surface:#1b1117;
+  --surface2:#24171f;
+  --wine:#8c2442;
+  --red:#d43b59;
+  --gold:#e9bd78;
+  --white:#fff8f7;
+  --muted:#a99aa1;
+  --border:rgba(255,255,255,.09);
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+button{cursor:pointer}
+.bg-glow{
+  position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+  radial-gradient(ellipse at 85% 5%,rgba(140,36,66,.22),transparent 35%),
+  radial-gradient(ellipse at 5% 50%,rgba(140,36,66,.12),transparent 35%);
+}
+.container{width:min(1160px,92%);margin:auto}
+
+/* NAVBAR */
+.navbar{
+  height:76px;display:flex;align-items:center;
+  border-bottom:1px solid var(--border);
+  background:rgba(16,9,13,.82);
+  backdrop-filter:blur(18px);
+  position:sticky;top:0;z-index:50;
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:43px;height:43px;border-radius:14px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#a72d50,#4c1329);
+  box-shadow:0 6px 24px #a72d5040;
+  font-size:23px;
+}
+.brand-name{
+  font-family:'Outfit',sans-serif;
+  font-size:21px;font-weight:800;letter-spacing:-.5px;
+}
+.brand-name span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:30px}
+.nav-links a{font-size:13px;color:var(--muted);transition:.2s}
+.nav-links a:hover{color:white}
+.nav-right{display:flex;align-items:center;gap:10px}
+.status{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 13px;border:1px solid var(--border);
+  border-radius:30px;font-size:11px;color:var(--muted);
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#e6ae58}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:9px;border:0;border-radius:12px;
+  padding:12px 19px;font-weight:700;font-size:13px;
+  transition:.25s;
+}
+.btn-primary{
+  color:white;background:linear-gradient(110deg,#a52d50,#702039);
+  box-shadow:0 8px 24px #8c244233;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px #8c244255}
+.btn-outline{background:transparent;border:1px solid var(--border);color:white}
+.btn-outline:hover{background:#ffffff0c}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* HERO */
+.hero{padding:76px 0 58px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--gold);font-size:11px;font-weight:800;
+  letter-spacing:1.8px;text-transform:uppercase;
+  padding:8px 13px;border-radius:30px;
+  background:#e9bd7810;border:1px solid #e9bd782b;
+}
+.hero h1{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(42px,6vw,69px);
+  line-height:1.04;letter-spacing:-2.8px;
+  margin:24px 0 20px;
+}
+.hero h1 span{
+  background:linear-gradient(90deg,#f3d49d,#d65a76);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-desc{font-size:15px;line-height:1.9;color:var(--muted);max-width:540px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hero-note{font-size:11px;color:#8e7f87;margin-top:20px}
+
+/* HERO VISUAL */
+.visual{
+  min-height:370px;border:1px solid var(--border);
+  border-radius:30px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,#29141f,#170d13 70%);
+  display:flex;align-items:center;justify-content:center;
+}
+.visual:before{
+  content:"";position:absolute;width:280px;height:280px;
+  border-radius:50%;background:#a32d5030;filter:blur(50px);
+}
+.visual-card{
+  position:relative;width:230px;height:290px;
+  border:1px solid #ffffff25;border-radius:25px;
+  background:linear-gradient(145deg,#ffffff18,#ffffff04);
+  backdrop-filter:blur(12px);padding:20px;
+  transform:rotate(-5deg);
+  box-shadow:0 30px 70px #0008;
+}
+.visual-wallet{
+  height:155px;border-radius:18px;
+  background:linear-gradient(145deg,#373037,#111);
+  border:1px solid #ffffff28;
+  display:grid;place-items:center;font-size:75px;
+}
+.visual-label{margin-top:18px;font-weight:800;font-family:'Outfit';font-size:19px}
+.visual-sub{font-size:10px;color:var(--muted);margin-top:5px}
+.floating{
+  position:absolute;padding:12px 15px;
+  background:#2b1923;border:1px solid #ffffff1a;
+  border-radius:14px;box-shadow:0 15px 35px #0006;
+  font-size:11px;font-weight:700;
+}
+.float-one{top:48px;right:18px}
+.float-two{bottom:40px;left:16px}
+.float-icon{color:var(--gold);margin-right:6px}
+
+/* SECTION */
+.section{padding:55px 0}
+.section-head{text-align:center;margin-bottom:32px}
+.kicker{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:800}
+.section-title{
+  font-family:'Outfit';font-size:clamp(27px,4vw,38px);
+  margin-top:10px;letter-spacing:-1px;
+}
+.section-desc{color:var(--muted);font-size:13px;margin-top:10px}
+
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{
+  padding:25px;border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:linear-gradient(145deg,#21141c,#171016);
+  transition:.25s;
+}
+.feature:hover{transform:translateY(-5px);border-color:#a83c5a66}
+.feature-icon{
+  width:47px;height:47px;border-radius:14px;
+  display:grid;place-items:center;font-size:22px;
+  background:#a52d5022;margin-bottom:19px;
+}
+.feature h3{font-family:'Outfit';font-size:17px;margin-bottom:9px}
+.feature p{font-size:12px;line-height:1.8;color:var(--muted)}
+
+/* WORKSPACE */
+.workspace{
+  border:1px solid var(--border);
+  border-radius:25px;background:linear-gradient(145deg,#21141c,#160e13);
+  padding:28px;
+}
+.workspace-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}
+.workspace-top h2{font-family:'Outfit';font-size:22px}
+.demo-tag{font-size:10px;color:var(--gold);background:#e9bd7812;padding:7px 11px;border-radius:20px}
+.workspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.upload-box{
+  border:1px dashed #ffffff30;border-radius:18px;
+  min-height:230px;padding:25px;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
+  background:#ffffff03;transition:.2s;
+}
+.upload-box.drag{border-color:var(--gold);background:#e9bd780b}
+.upload-icon{font-size:38px;margin-bottom:12px}
+.upload-box h3{font-size:15px}
+.upload-box p{font-size:11px;color:var(--muted);margin:7px 0 16px}
+#videoInput{display:none}
+.video-preview{
+  width:100%;max-height:310px;object-fit:contain;
+  border-radius:14px;background:#080608;display:none;
+}
+.video-empty{
+  min-height:230px;display:grid;place-items:center;
+  text-align:center;color:var(--muted);font-size:12px;
+  border:1px solid var(--border);border-radius:18px;
+  background:#0d080c;
+}
+.file-info{font-size:11px;color:var(--muted);margin-top:10px;word-break:break-word}
+.workspace-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.demo-message{
+  margin-top:18px;padding:13px 15px;border-radius:12px;
+  background:#e9bd780e;border:1px solid #e9bd7825;
+  color:#d9bd91;font-size:11px;line-height:1.7;
+}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step-card{padding:22px;border-left:2px solid #9b3150;background:#ffffff04}
+.step-number{font-family:'Outfit';font-size:32px;color:#d65a76;font-weight:800}
+.step-card h3{font-size:15px;margin:8px 0}
+.step-card p{font-size:12px;color:var(--muted);line-height:1.8}
+
+/* FOOTER */
+footer{margin-top:55px;border-top:1px solid var(--border);padding:30px 0}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer-copy{font-size:11px;color:var(--muted)}
+.footer-links{display:flex;gap:20px;font-size:11px;color:var(--muted)}
+.footer-links a:hover{color:white}
+
+/* MOBILE */
+@media(max-width:800px){
+  .hero-grid{grid-template-columns:1fr;gap:35px}
+  .visual{min-height:330px}
+  .features{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .navbar{height:auto;padding:13px 0}
+  .nav-links{display:none}
+  .status{font-size:10px}
+  .hero{padding:52px 0 35px}
+  .hero h1{letter-spacing:-1.8px}
+  .hero-actions .btn{flex:1}
+  .features,.workspace-grid,.steps{grid-template-columns:1fr}
+  .workspace{padding:17px}
+  .workspace-top{align-items:flex-start;flex-direction:column}
+  .footer-inner{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+<div class="bg-glow"></div>
+
+<header class="navbar">
+  <div class="container nav-inner">
+    <a class="brand" href="#">
+      <div class="brand-icon">👛</div>
+      <div class="brand-name">Tia <span>Dompet</span></div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#fitur">Fitur</a>
+      <a href="#workspace">Demo Studio</a>
+      <a href="#cara-kerja">Cara Kerja</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="status"><span class="dot"></span> Demo Preview</div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">✦ Smart Content Studio</div>
+      <h1>Ubah produk jadi <span>konten menarik.</span></h1>
+      <p class="hero-desc">
+        Siapkan video promosi produk dengan lebih praktis.
+        Tia Dompet dirancang untuk membantu proses pembuatan,
+        pengelolaan, dan persiapan konten media sosial.
+      </p>
+      <div class="hero-actions">
+        <a href="#workspace" class="btn btn-primary">Mulai Demo <span>↗</span></a>
+        <a href="#fitur" class="btn btn-outline">Jelajahi Fitur</a>
+      </div>
+      <p class="hero-note">✦ Demo antarmuka · Integrasi TikTok belum diaktifkan</p>
+    </div>
+
+    <div class="visual">
+      <div class="visual-card">
+        <div class="visual-wallet">👛</div>
+        <div class="visual-label">Tia Dompet</div>
+        <div class="visual-sub">SMART PRODUCT CONTENT</div>
+      </div>
+      <div class="floating float-one"><span class="float-icon">✦</span> Creative Studio</div>
+      <div class="floating float-two"><span class="float-icon">▶</span> Video Preview</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="fitur">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">POWERFUL FEATURES</div>
+      <h2 class="section-title">Semua dimulai dari satu tempat</h2>
+      <p class="section-desc">Ruang kerja sederhana untuk menyiapkan konten produk.</p>
+    </div>
+
+    <div class="features">
+      <article class="feature">
+        <div class="feature-icon">📸</div>
+        <h3>Product Media</h3>
+        <p>Siapkan foto dan video produk sebagai bahan konten promosi.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-icon">🎬</div>
+        <h3>Video Preview</h3>
+        <p>Periksa video MP4 sebelum digunakan untuk kebutuhan publikasi.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-icon">📱</div>
+        <h3>Social Publishing</h3>
+        <p>Dirancang untuk mendukung alur berbagi konten ke platform sosial melalui integrasi resmi.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="workspace">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">CONTENT WORKSPACE</div>
+      <h2 class="section-title">Video Studio</h2>
+      <p class="section-desc">Pilih video dan lihat pratinjau langsung di browser.</p>
+    </div>
+
+    <div class="workspace">
+      <div class="workspace-top">
+        <h2>My Content Workspace</h2>
+        <span class="demo-tag">DEMO MODE</span>
+      </div>
+
+      <div class="workspace-grid">
+        <div class="upload-box" id="dropZone">
+          <div class="upload-icon">☁️</div>
+          <h3>Pilih video promosi</h3>
+          <p>Format MP4 · Pilih file dari perangkat</p>
+          <label for="videoInput" class="btn btn-primary">Pilih Video</label>
+          <input type="file" id="videoInput" accept="video/mp4,video/*">
+          <div class="file-info" id="fileInfo">Belum ada file dipilih</div>
+        </div>
+
+        <div>
+          <video id="videoPreview" class="video-preview" controls playsinline></video>
+          <div class="video-empty" id="videoEmpty">
+            <div>▶<br><br>Pratinjau video akan tampil di sini</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workspace-actions">
+        <button class="btn btn-outline" id="removeVideo" disabled>Hapus Video</button>
+        <button class="btn btn-primary" disabled title="Belum terhubung dengan backend">Hubungkan TikTok ↗</button>
+      </div>
+
+      <div class="demo-message">
+        <strong>Mode demonstrasi:</strong> pemilihan dan pratinjau video berjalan di browser.
+        Tombol koneksi dan pengiriman TikTok belum aktif karena backend OAuth dan API belum dipasang.
+        Tidak ada data yang dikirim ke TikTok dari halaman ini.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="cara-kerja">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">SIMPLE WORKFLOW</div>
+      <h2 class="section-title">Alur kerja Tia Dompet</h2>
+      <p class="section-desc">Dirancang agar proses menyiapkan konten terasa lebih mudah.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Siapkan Materi</h3>
+        <p>Pilih foto atau video produk yang akan digunakan untuk konten.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Periksa Konten</h3>
+        <p>Tinjau hasil video, teks promosi, dan materi sebelum dibagikan.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>Bagikan Konten</h3>
+        <p>Gunakan integrasi resmi jika tersedia dan telah memperoleh persetujuan yang diperlukan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <div class="brand-name">Tia <span style="color:var(--gold)">Dompet</span></div>
+      <p class="footer-copy" style="margin-top:8px">Smart Content Studio · © 2026 Tia Dompet</p>
+    </div>
+    <div class="footer-links">
+      <a href="terms.html">Ketentuan Layanan</a>
+      <a href="privacy.html">Kebijakan Privasi</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const input = document.getElementById('videoInput');
+const preview = document.getElementById('videoPreview');
+const empty = document.getElementById('videoEmpty');
+const info = document.getElementById('fileInfo');
+const remove = document.getElementById('removeVideo');
+const drop = document.getElementById('dropZone');
+let currentUrl = null;
+
+function loadVideo(file) {
+  if (!file) return;
+
+  if (!file.type.startsWith('video/')) {
+    info.textContent = 'File harus berupa video.';
+    return;
+  }
+
+  if (currentUrl) URL.revokeObjectURL(currentUrl);
+
+  currentUrl = URL.createObjectURL(file);
+  preview.src = currentUrl;
+  preview.style.display = 'block';
+  empty.style.display = 'none';
+  info.textContent = file.name + ' · ' + (file.size / 1024 / 1024).toFixed(2) + ' MB';
+  remove.disabled = false;
+}
+
+input.addEventListener('change', () => loadVideo(input.files[0]));
+
+remove.addEventListener('click', () => {
+  if (currentUrl) URL.revokeObjectURL(currentUrl);
+  currentUrl = null;
+  preview.pause();
+  preview.removeAttribute('src');
+  preview.load();
+  preview.style.display = 'none';
+  empty.style.display = 'grid';
+  info.textContent = 'Belum ada file dipilih';
+  input.value = '';
+  remove.disabled = true;
+});
+
+['dragenter','dragover'].forEach(eventName => {
+  drop.addEventListener(eventName, e => {
+    e.preventDefault();
+    drop.classList.add('drag');
+  });
+});
+['dragleave','drop'].forEach(eventName => {
+  drop.addEventListener(eventName, e => {
+    e.preventDefault();
+    drop.classList.remove('drag');
+  });
+});
+drop.addEventListener('drop', e => {
+  const file = e.dataTransfer.files[0];
+  loadVideo(file);
+});
+</script>
+</body>
+</html>
