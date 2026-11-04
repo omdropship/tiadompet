@@ -1,0 +1,1307 @@
+```html
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapCut E-Commerce Video Studio (9:16)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        capcut: {
+                            bg: '#121214',
+                            card: '#1e1e22',
+                            panel: '#28282e',
+                            border: '#383842',
+                            accent: '#00e5ff',
+                            accentHover: '#00b8cc',
+                            danger: '#ff4757',
+                            warning: '#ffa502'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121214;
+            color: #f1f2f6;
+            user-select: none;
+        }
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1e22;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #383842;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00e5ff;
+        }
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #00e5ff;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #383842;
+            border-radius: 2px;
+        }
+
+        /* Fullscreen Container Styling */
+        .fullscreen-active {
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            z-index: 9999 !important;
+            background-color: #000000 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .fullscreen-active #fullscreenControls {
+            display: flex !important;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-sm">
+
+    <!-- Top Navigation Header -->
+    <header class="h-14 bg-capcut-card border-b border-capcut-border flex items-center justify-between px-4 z-20 shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-cyan-500 to-blue-600 p-2 rounded-lg text-black font-black flex items-center justify-center w-8 h-8">
+                <i class="fa-solid fa-film text-white"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base text-white tracking-wide">CapCut Studio Lite</h1>
+                <p class="text-xs text-gray-400">Vertical E-Commerce Video Maker (9:16)</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button id="exportBtn" class="bg-capcut-accent hover:bg-capcut-accentHover text-black font-semibold px-4 py-2 rounded-lg flex items-center gap-2 transition duration-200 shadow-lg shadow-cyan-500/20 active:scale-95">
+                <i class="fa-solid fa-download"></i>
+                <span>Export MP4 (WebM)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+
+        <!-- LEFT PANEL: Editor Controls & Customization -->
+        <aside class="w-full lg:w-96 bg-capcut-card border-r border-capcut-border flex flex-col z-10 shrink-0 h-1/2 lg:h-auto overflow-hidden">
+            <!-- Tabs Header -->
+            <div class="flex border-b border-capcut-border bg-capcut-bg text-gray-400 font-medium">
+                <button class="tab-btn active flex-1 py-3 text-center border-b-2 border-capcut-accent text-white flex justify-center items-center gap-2" data-tab="tab-text">
+                    <i class="fa-solid fa-font text-xs"></i> Teks & Promo
+                </button>
+                <button class="tab-btn flex-1 py-3 text-center border-b-2 border-transparent hover:text-white flex justify-center items-center gap-2" data-tab="tab-media">
+                    <i class="fa-solid fa-image text-xs"></i> Foto Produk
+                </button>
+                <button class="tab-btn flex-1 py-3 text-center border-b-2 border-transparent hover:text-white flex justify-center items-center gap-2" data-tab="tab-preset">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Template
+                </button>
+            </div>
+
+            <!-- Tab Contents Container -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-5">
+
+                <!-- TAB 1: TEXT CUSTOMIZATION -->
+                <div id="tab-text" class="tab-content space-y-4">
+                    <div class="bg-capcut-panel p-3 rounded-lg border border-capcut-border space-y-3">
+                        <h3 class="font-semibold text-xs text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group"></i> Scene 1 (Detik 0 - 5): Intro Produk
+                        </h3>
+                        <div>
+                            <label class="text-xs text-gray-400 block mb-1">Judul / Sub-brand</label>
+                            <input type="text" id="inputSubtitle1" value="PREMIUM HANDMADE" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400 block mb-1">Nama Produk Utama</label>
+                            <input type="text" id="inputTitle1" value="ELEGANCE LEATHER WALLET" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                        </div>
+                    </div>
+
+                    <div class="bg-capcut-panel p-3 rounded-lg border border-capcut-border space-y-3">
+                        <h3 class="font-semibold text-xs text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group"></i> Scene 2 (Detik 5 - 10): Keunggulan
+                        </h3>
+                        <div>
+                            <label class="text-xs text-gray-400 block mb-1">Keunggulan 1</label>
+                            <input type="text" id="inputFeature1" value="• 100% Kulit Sapi Asli Premium" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none mb-2">
+                            <label class="text-xs text-gray-400 block mb-1">Keunggulan 2</label>
+                            <input type="text" id="inputFeature2" value="• Desain Slim & Anti RFID Blocking" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none mb-2">
+                            <label class="text-xs text-gray-400 block mb-1">Keunggulan 3</label>
+                            <input type="text" id="inputFeature3" value="• Garansi Tahan Lama 3 Tahun" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                        </div>
+                    </div>
+
+                    <div class="bg-capcut-panel p-3 rounded-lg border border-capcut-border space-y-3">
+                        <h3 class="font-semibold text-xs text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group"></i> Scene 3 (Detik 10 - 15): Offer & CTA
+                        </h3>
+                        <div>
+                            <label class="text-xs text-gray-400 block mb-1">Teks Flash Sale / Badge</label>
+                            <input type="text" id="inputBadge" value="PROMO SPESIAL HARI INI" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-1">Harga Coret</label>
+                                <input type="text" id="inputOldPrice" value="Rp 199.000" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-1">Harga Promo</label>
+                                <input type="text" id="inputNewPrice" value="Rp 89.000" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400 block mb-1">Teks Tombol CTA</label>
+                            <input type="text" id="inputCta" value="BELI SEKARANG ►" class="w-full bg-capcut-bg border border-capcut-border rounded p-2 text-white text-xs focus:border-capcut-accent outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: MEDIA MANAGEMENT -->
+                <div id="tab-media" class="tab-content space-y-4 hidden">
+                    <div class="text-xs text-gray-400 mb-2">
+                        Gunakan foto default dari CDN atau upload foto produk milik Anda sendiri.
+                    </div>
+
+                    <!-- Image Scene 1 -->
+                    <div class="bg-capcut-panel p-3 rounded-lg border border-capcut-border space-y-2">
+                        <label class="font-medium text-xs text-gray-200 block">Foto Scene 1 (Intro)</label>
+                        <div class="flex gap-2 items-center">
+                            <img id="thumb1" class="w-12 h-12 object-cover rounded border border-capcut-border" src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80" crossorigin="anonymous">
+                            <input type="file" id="fileImg1" accept="image/*" class="hidden">
+                            <button onclick="document.getElementById('fileImg1').click()" class="bg-capcut-border hover:bg-gray-600 px-3 py-1.5 rounded text-xs text-white transition">Ganti Foto</button>
+                        </div>
+                    </div>
+
+                    <!-- Image Scene 2 -->
+                    <div class="bg-capcut-panel p-3 rounded-lg border border-capcut-border space-y-2">
+                        <label class="font-medium text-xs text-gray-200 block">Foto Scene 2 (Fitur)</label>
+                        <div class="flex gap-2 items-center">
+                            <img id="thumb2" class="w-12 h-12 object-cover rounded border border-capcut-border" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80" crossorigin="anonymous">
+                            <input type="file" id="fileImg2" accept="image/*" class="hidden">
+                            <button onclick="document.getElementById('fileImg2').click()" class="bg-capcut-border hover:bg-gray-600 px-3 py-1.5 rounded text-xs text-white transition">Ganti Foto</button>
+                        </div>
+                    </div>
+
+                    <!-- Image Scene 3 -->
+                    <div class="bg-capcut-panel p-3 rounded-lg border border-capcut-border space-y-2">
+                        <label class="font-medium text-xs text-gray-200 block">Foto Scene 3 (Promo & Closing)</label>
+                        <div class="flex gap-2 items-center">
+                            <img id="thumb3" class="w-12 h-12 object-cover rounded border border-capcut-border" src="https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&w=800&q=80" crossorigin="anonymous">
+                            <input type="file" id="fileImg3" accept="image/*" class="hidden">
+                            <button onclick="document.getElementById('fileImg3').click()" class="bg-capcut-border hover:bg-gray-600 px-3 py-1.5 rounded text-xs text-white transition">Ganti Foto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: TEMPLATES -->
+                <div id="tab-preset" class="tab-content space-y-3 hidden">
+                    <div class="text-xs text-gray-400 mb-2">Pilih dari 15 gaya visual template video iklan modern & kekinian:</div>
+                    
+                    <div id="presetGrid" class="grid grid-cols-1 gap-2.5 max-h-[calc(100vh-220px)] overflow-y-auto pr-1">
+                        <!-- Presets generated dynamically via JavaScript -->
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- CENTER AREA: CANVAS PREVIEW & TIMELINE -->
+        <main class="flex-1 flex flex-col bg-capcut-bg relative overflow-hidden items-center justify-center p-4">
+            
+            <!-- Video Canvas Monitor Container (9:16 Aspect Ratio) -->
+            <div id="videoMonitorContainer" class="relative flex-1 max-h-[70vh] aspect-[9/16] bg-black rounded-xl overflow-hidden shadow-2xl border border-capcut-border flex items-center justify-center group">
+                
+                <!-- Main HTML5 Render Canvas -->
+                <canvas id="videoCanvas" width="1080" height="1920" class="w-full h-full object-contain max-h-full"></canvas>
+
+                <!-- Floating Play/Pause Hover Overlay for Preview -->
+                <div id="canvasOverlay" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center cursor-pointer">
+                    <button id="overlayPlayBtn" class="w-16 h-16 rounded-full bg-capcut-accent text-black flex items-center justify-center text-xl shadow-lg transform transition active:scale-90">
+                        <i class="fa-solid fa-play ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Scene Indicator Toast -->
+                <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-medium text-white border border-white/10 flex items-center gap-2 pointer-events-none z-10">
+                    <span id="sceneBadgeDot" class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    <span id="sceneBadgeText">Scene 1: Intro</span>
+                </div>
+
+                <!-- Fullscreen Overlay Controls (Only visible in Fullscreen mode) -->
+                <div id="fullscreenControls" class="hidden absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-black/75 backdrop-blur-md p-3 rounded-2xl border border-white/20 items-center gap-3 z-20 shadow-2xl">
+                    <button id="fsBtnPlay" class="w-9 h-9 rounded-full bg-capcut-accent text-black flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-play ml-0.5"></i>
+                    </button>
+                    <input type="range" id="fsTimelineSlider" min="0" max="15" step="0.01" value="0" class="flex-1">
+                    <span id="fsTimeDisplay" class="font-mono text-[11px] text-gray-200 shrink-0">00:00 / 00:15</span>
+                    <button id="fsBtnExit" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center shrink-0" title="Keluar Fullscreen">
+                        <i class="fa-solid fa-compress"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PLAYER CONTROLS & TIMELINE -->
+            <div class="w-full max-w-2xl bg-capcut-card rounded-xl p-3 mt-3 border border-capcut-border space-y-2 shrink-0">
+                
+                <!-- Control Buttons & Timer -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <button id="btnPlay" class="w-9 h-9 rounded-lg bg-capcut-accent hover:bg-capcut-accentHover text-black flex items-center justify-center transition active:scale-95">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        <button id="btnStop" class="w-9 h-9 rounded-lg bg-capcut-panel hover:bg-gray-700 text-white flex items-center justify-center transition active:scale-95">
+                            <i class="fa-solid fa-stop"></i>
+                        </button>
+                        <button id="btnFullscreen" class="w-9 h-9 rounded-lg bg-capcut-panel hover:bg-gray-700 text-white flex items-center justify-center transition active:scale-95" title="Layar Penuh (Fullscreen)">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
+                        <span id="timeDisplay" class="font-mono text-xs font-semibold text-gray-300 ml-2">00:00 / 00:15</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-xs text-gray-400">
+                        <span class="px-2 py-0.5 rounded bg-capcut-panel border border-capcut-border">1080 x 1920</span>
+                        <span class="px-2 py-0.5 rounded bg-capcut-panel border border-capcut-border">60 FPS</span>
+                    </div>
+                </div>
+
+                <!-- Timeline Scrubber Track -->
+                <div class="space-y-1">
+                    <input type="range" id="timelineSlider" min="0" max="15" step="0.01" value="0" class="w-full">
+                    
+                    <!-- Scene Blocks Visual Indicator Bar -->
+                    <div class="flex h-2.5 rounded overflow-hidden text-[9px] font-bold text-black gap-0.5 bg-capcut-bg">
+                        <div class="w-1/3 bg-blue-500/80 flex items-center justify-center tracking-tighter cursor-pointer" onclick="seekTo(2.5)">SCENE 1 (0-5s)</div>
+                        <div class="w-1/3 bg-purple-500/80 flex items-center justify-center tracking-tighter cursor-pointer" onclick="seekTo(7.5)">SCENE 2 (5-10s)</div>
+                        <div class="w-1/3 bg-amber-500/80 flex items-center justify-center tracking-tighter cursor-pointer" onclick="seekTo(12.5)">SCENE 3 (10-15s)</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <script>
+        // --- 1. CONFIGURATION & CDN ASSETS ---
+        const DEFAULT_IMAGES = {
+            img1: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80',
+            img2: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
+            img3: 'https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&w=800&q=80'
+        };
+
+        const TOTAL_DURATION = 15.0; // 15 Detik
+        const CANVAS_WIDTH = 1080;
+        const CANVAS_HEIGHT = 1920;
+
+        // Dynamic State
+        let currentTime = 0;
+        let isPlaying = false;
+        let animationFrameId = null;
+        let lastTimestamp = 0;
+        let activePreset = 'luxe'; 
+
+        // 15 Modern & Trendy Templates Definition
+        const PRESETS = [
+            { id: 'luxe', name: '1. Luxe Gold & Emerald', desc: 'Elegan, Mewah, Emerald & Gold Accent, Soft Glow', primaryColor: '#d4af37', bgGradient: ['#042017', '#0a3a2a', '#000000'] },
+            { id: 'cyber', name: '2. Cyber Neon Tech', desc: 'Futuristis, Neon Cyan & Purple Grid, Glow Effect', primaryColor: '#00f3ff', bgGradient: ['#0d001a', '#1a0033', '#05000a'] },
+            { id: 'pastel', name: '3. Minimalist Korean Pastel', desc: 'Clean, Soft Pink & Cream Beige, Glass Cards', primaryColor: '#ff8fa3', bgGradient: ['#fff0f3', '#ffe5ec', '#ffc2d1'] },
+            { id: 'flash', name: '4. Flash Sale Red Fire', desc: 'High Energy, Bright Red & Gold, Pulsing Sale', primaryColor: '#ffd700', bgGradient: ['#3a0007', '#800010', '#000000'] },
+            { id: 'tiktok', name: '5. TikTok Viral UGC Style', desc: 'Overlay Badge TikTok, Bubble Text, Dynamic Slide', primaryColor: '#fe2c55', bgGradient: ['#121212', '#000000', '#181818'] },
+            { id: 'organic', name: '6. Organic Eco / Nature', desc: 'Earth Tones, Leaf Green, Sage & Botanical Vibes', primaryColor: '#a7c957', bgGradient: ['#1b2d23', '#2a4435', '#0f1a14'] },
+            { id: 'urban', name: '7. Bold Urban / Streetwear', desc: 'High Contrast Yellow & Black, Brutalist Layout', primaryColor: '#ffee00', bgGradient: ['#111111', '#1a1a1a', '#000000'] },
+            { id: 'y2k', name: '8. Vintage Y2K Retro Sunset', desc: 'Gradient Neon Sunset, Retro Chrome Style', primaryColor: '#ff007f', bgGradient: ['#2b1055', '#7597de', '#20002c'] },
+            { id: 'clean', name: '9. Modern Clean White', desc: 'Swiss Design, Minimalist Gray backdrop, Crisp', primaryColor: '#2563eb', bgGradient: ['#f8fafc', '#e2e8f0', '#cbd5e1'] },
+            { id: 'midnight', name: '10. Midnight Purple Luxury', desc: 'Royal Violet, Rose Gold Accents, Smooth Type', primaryColor: '#e0a96d', bgGradient: ['#190628', '#310d4c', '#0c0214'] },
+            { id: 'autumn', name: '11. Aesthetic Warm Autumn', desc: 'Warm Terracotta, Cream Neutral, Editorial Look', primaryColor: '#e07a5f', bgGradient: ['#3d261d', '#5c3a2c', '#1f130e'] },
+            { id: 'wave', name: '12. Gradient Wave Pop', desc: 'Vibrant Magenta & Cyan Gradient, Glassmorphism', primaryColor: '#00f5d4', bgGradient: ['#7b2cbf', '#f72585', '#4cc9f0'] },
+            { id: 'stealth', name: '13. Minimal Dark Stealth', desc: 'Matte Black, Crisp White Text, Neon Accent Dots', primaryColor: '#39ff14', bgGradient: ['#09090b', '#18181b', '#000000'] },
+            { id: 'geometric', name: '14. Geometric Abstract', desc: 'Pattern Accent, Floating Shapes & Vibrant Badges', primaryColor: '#ff9e00', bgGradient: ['#001219', '#005f73', '#0a9396'] },
+            { id: 'editorial', name: '15. Newspaper / Editorial', desc: 'Split Screen Layout, Bold Headlines, Monochromatic', primaryColor: '#e63946', bgGradient: ['#1d3557', '#457b9d', '#000000'] }
+        ];
+
+        // DOM Elements
+        const canvas = document.getElementById('videoCanvas');
+        const ctx = canvas.getContext('2d');
+        const videoMonitorContainer = document.getElementById('videoMonitorContainer');
+        const btnPlay = document.getElementById('btnPlay');
+        const btnStop = document.getElementById('btnStop');
+        const btnFullscreen = document.getElementById('btnFullscreen');
+        const overlayPlayBtn = document.getElementById('overlayPlayBtn');
+        const canvasOverlay = document.getElementById('canvasOverlay');
+        const timelineSlider = document.getElementById('timelineSlider');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const sceneBadgeText = document.getElementById('sceneBadgeText');
+        const exportBtn = document.getElementById('exportBtn');
+
+        // Fullscreen Controls Elements
+        const fullscreenControls = document.getElementById('fullscreenControls');
+        const fsBtnPlay = document.getElementById('fsBtnPlay');
+        const fsBtnExit = document.getElementById('fsBtnExit');
+        const fsTimelineSlider = document.getElementById('fsTimelineSlider');
+        const fsTimeDisplay = document.getElementById('fsTimeDisplay');
+
+        // Loaded Image Cache
+        const loadedImages = { img1: null, img2: null, img3: null };
+
+        // Render Template Selection List in UI
+        function renderPresetSelector() {
+            const container = document.getElementById('presetGrid');
+            container.innerHTML = PRESETS.map(p => `
+                <button class="preset-btn w-full p-2.5 rounded-lg bg-capcut-panel border ${p.id === activePreset ? 'border-capcut-accent' : 'border-capcut-border'} text-left hover:bg-gray-800 transition flex items-center justify-between group" data-style="${p.id}">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-4 h-8 rounded shrink-0 shadow-sm" style="background: linear-gradient(to bottom, ${p.bgGradient[0]}, ${p.bgGradient[1]})"></div>
+                        <div>
+                            <div class="font-bold text-white text-xs group-hover:text-cyan-400 transition">${p.name}</div>
+                            <div class="text-[10px] text-gray-400 line-clamp-1">${p.desc}</div>
+                        </div>
+                    </div>
+                    ${p.id === activePreset ? '<i class="fa-solid fa-check text-capcut-accent text-xs"></i>' : ''}
+                </button>
+            `).join('');
+
+            // Re-attach listeners
+            container.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activePreset = btn.dataset.style;
+                    renderPresetSelector();
+                    renderFrame(currentTime);
+                });
+            });
+        }
+
+        // --- 2. IMAGE PRELOADER ENGINE ---
+        function loadImage(src) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => resolve(img);
+                img.onerror = () => {
+                    const fallbackCanvas = document.createElement('canvas');
+                    fallbackCanvas.width = 800;
+                    fallbackCanvas.height = 1000;
+                    const fCtx = fallbackCanvas.getContext('2d');
+                    fCtx.fillStyle = '#2d3436';
+                    fCtx.fillRect(0,0,800,1000);
+                    fCtx.fillStyle = '#ffffff';
+                    fCtx.font = 'bold 40px Inter';
+                    fCtx.textAlign = 'center';
+                    fCtx.fillText('Product Image', 400, 500);
+                    const fallbackImg = new Image();
+                    fallbackImg.src = fallbackCanvas.toDataURL();
+                    resolve(fallbackImg);
+                };
+                img.src = src;
+            });
+        }
+
+        async function preLoadAllAssets() {
+            try {
+                loadedImages.img1 = await loadImage(DEFAULT_IMAGES.img1);
+                loadedImages.img2 = await loadImage(DEFAULT_IMAGES.img2);
+                loadedImages.img3 = await loadImage(DEFAULT_IMAGES.img3);
+                renderPresetSelector();
+                renderFrame(currentTime);
+            } catch (err) {
+                console.error("Asset loading error:", err);
+            }
+        }
+
+        // --- 3. DYNAMIC BACKGROUND & OVERLAY RENDERER ---
+        function drawBackgroundGradient(presetId, localTime = 0) {
+            const presetConfig = PRESETS.find(p => p.id === presetId) || PRESETS[0];
+            const colors = presetConfig.bgGradient;
+
+            let grad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
+            grad.addColorStop(0, colors[0]);
+            grad.addColorStop(0.5, colors[1]);
+            grad.addColorStop(1, colors[2] || '#000000');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            // Special Dynamic Visual Details per Template
+            if (presetId === 'cyber') {
+                // Cyberpunk Grid Pattern
+                ctx.strokeStyle = 'rgba(0, 243, 255, 0.12)';
+                ctx.lineWidth = 2;
+                const step = 80;
+                for (let x = 0; x < CANVAS_WIDTH; x += step) {
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, CANVAS_HEIGHT); ctx.stroke();
+                }
+                const offset = (localTime * 60) % step;
+                for (let y = offset; y < CANVAS_HEIGHT; y += step) {
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CANVAS_WIDTH, y); ctx.stroke();
+                }
+            } else if (presetId === 'urban') {
+                // Diagonal Warning Stripes
+                ctx.fillStyle = 'rgba(255, 238, 0, 0.04)';
+                for (let i = -CANVAS_HEIGHT; i < CANVAS_WIDTH; i += 120) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0); ctx.lineTo(i + 60, 0);
+                    ctx.lineTo(i + 60 + CANVAS_HEIGHT, CANVAS_HEIGHT);
+                    ctx.lineTo(i + CANVAS_HEIGHT, CANVAS_HEIGHT);
+                    ctx.fill();
+                }
+            } else if (presetId === 'y2k') {
+                // Y2K Sun & Retro Lines
+                ctx.save();
+                let sunGrad = ctx.createLinearGradient(0, 400, 0, 1000);
+                sunGrad.addColorStop(0, '#ff007f');
+                sunGrad.addColorStop(1, '#ffbe0b');
+                ctx.fillStyle = sunGrad;
+                ctx.beginPath();
+                ctx.arc(CANVAS_WIDTH / 2, 700, 320, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Sun Blinds Cutout
+                ctx.fillStyle = colors[0];
+                for (let b = 600; b < 1000; b += 35) {
+                    ctx.fillRect(CANVAS_WIDTH / 2 - 330, b, 660, (b - 550) * 0.04 + 4);
+                }
+                ctx.restore();
+            } else if (presetId === 'wave') {
+                // Floating Light Orbs
+                ctx.save();
+                for (let i = 0; i < 4; i++) {
+                    let orbX = CANVAS_WIDTH / 2 + Math.sin(localTime * 1.5 + i) * 300;
+                    let orbY = CANVAS_HEIGHT / 2 + Math.cos(localTime * 1.2 + i * 2) * 400;
+                    let orbGrad = ctx.createRadialGradient(orbX, orbY, 50, orbX, orbY, 400);
+                    orbGrad.addColorStop(0, i % 2 === 0 ? 'rgba(0, 245, 212, 0.35)' : 'rgba(247, 37, 133, 0.35)');
+                    orbGrad.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = orbGrad;
+                    ctx.beginPath(); ctx.arc(orbX, orbY, 400, 0, Math.PI * 2); ctx.fill();
+                }
+                ctx.restore();
+            } else if (presetId === 'editorial') {
+                // Split Screen Backdrop Layout
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT * 0.42);
+            }
+        }
+
+        // Helper: Draw Scaled & Formatted Image
+        function drawImageKenBurns(img, progress, zoomStart, zoomEnd, panY = 0) {
+            if (!img) return;
+            const currentZoom = zoomStart + (zoomEnd - zoomStart) * progress;
+            const isLightBg = (activePreset === 'clean' || activePreset === 'pastel');
+
+            ctx.save();
+            ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + panY);
+            ctx.scale(currentZoom, currentZoom);
+
+            const imgAspect = img.width / img.height;
+            const targetWidth = activePreset === 'editorial' ? 980 : 900;
+            const targetHeight = targetWidth / imgAspect;
+
+            const rectX = -targetWidth / 2;
+            const rectY = -targetHeight / 2;
+            const radius = (activePreset === 'editorial' || activePreset === 'urban') ? 0 : 32;
+
+            // Frame Drop Shadow
+            ctx.shadowColor = isLightBg ? 'rgba(0, 0, 0, 0.15)' : 'rgba(0, 0, 0, 0.65)';
+            ctx.shadowBlur = 35;
+            ctx.shadowOffsetY = 15;
+
+            ctx.beginPath();
+            ctx.roundRect(rectX, rectY, targetWidth, targetHeight, radius);
+            ctx.closePath();
+            ctx.fill();
+            ctx.clip();
+
+            ctx.shadowColor = 'transparent';
+            ctx.drawImage(img, rectX, rectY, targetWidth, targetHeight);
+            ctx.restore();
+        }
+
+        // --- 4. SCENE RENDERERS ---
+
+        // SCENE 1 (0 - 5s)
+        function renderScene1(localTime) {
+            const progress = localTime / 5.0;
+            const presetObj = PRESETS.find(p => p.id === activePreset) || PRESETS[0];
+
+            drawBackgroundGradient(activePreset, localTime);
+
+            // Image Ken Burns
+            ctx.save();
+            if (progress < 0.15) ctx.globalAlpha = progress / 0.15;
+            else if (progress > 0.85) ctx.globalAlpha = (1.0 - progress) / 0.15;
+            drawImageKenBurns(loadedImages.img1, progress, 1.0, 1.16, -100);
+            ctx.restore();
+
+            // Text Customization
+            const subTitle = document.getElementById('inputSubtitle1').value;
+            const title = document.getElementById('inputTitle1').value;
+            const isLight = (activePreset === 'clean' || activePreset === 'pastel');
+
+            ctx.save();
+            ctx.globalAlpha = Math.min(1.0, progress / 0.2);
+            ctx.textAlign = 'center';
+
+            // Subtitle
+            ctx.font = (activePreset === 'luxe' || activePreset === 'midnight') ? 'italic 700 36px Georgia' : '700 32px Inter';
+            ctx.fillStyle = presetObj.primaryColor;
+            const subY = 1320 + (1 - Math.min(1, progress * 3)) * -30;
+            ctx.fillText(subTitle.toUpperCase(), CANVAS_WIDTH / 2, subY);
+
+            // Title Main Product
+            ctx.font = activePreset === 'editorial' ? '900 68px Georgia' : '900 64px Inter';
+            ctx.fillStyle = isLight ? '#0f172a' : '#ffffff';
+            if (!isLight) {
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+                ctx.shadowBlur = 20;
+            }
+            const titleY = 1410 + (1 - Math.min(1, progress * 3)) * -15;
+            ctx.fillText(title, CANVAS_WIDTH / 2, titleY);
+
+            // Decorative Line / Pill Accent
+            ctx.strokeStyle = presetObj.primaryColor;
+            ctx.fillStyle = presetObj.primaryColor;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            const lineW = Math.min(320, progress * 900);
+            ctx.moveTo(CANVAS_WIDTH / 2 - lineW / 2, 1465);
+            ctx.lineTo(CANVAS_WIDTH / 2 + lineW / 2, 1465);
+            ctx.stroke();
+
+            // TikTok UGC Style Tag Overlay
+            if (activePreset === 'tiktok') {
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.roundRect(80, 120, 360, 64, 32);
+                ctx.fill();
+                ctx.font = '700 24px Inter';
+                ctx.fillStyle = '#000000';
+                ctx.textAlign = 'left';
+                ctx.fillText('TikTok Shop • FYP', 130, 160);
+            }
+
+            ctx.restore();
+        }
+
+        // SCENE 2 (5 - 10s)
+        function renderScene2(localTime) {
+            const progress = localTime / 5.0;
+            const presetObj = PRESETS.find(p => p.id === activePreset) || PRESETS[0];
+
+            drawBackgroundGradient(activePreset, localTime + 5);
+
+            // Image 2 Ken Burns
+            ctx.save();
+            if (progress < 0.15) ctx.globalAlpha = progress / 0.15;
+            else if (progress > 0.85) ctx.globalAlpha = (1.0 - progress) / 0.15;
+            drawImageKenBurns(loadedImages.img2, progress, 1.18, 1.0, -180);
+            ctx.restore();
+
+            const f1 = document.getElementById('inputFeature1').value;
+            const f2 = document.getElementById('inputFeature2').value;
+            const f3 = document.getElementById('inputFeature3').value;
+            const features = [f1, f2, f3];
+            const startY = 1260;
+            const isLight = (activePreset === 'clean' || activePreset === 'pastel');
+
+            features.forEach((feat, index) => {
+                const delay = index * 0.15;
+                const featProgress = Math.max(0, Math.min(1, (progress - delay) / 0.2));
+
+                if (featProgress > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = featProgress;
+                    const slideX = (1 - featProgress) * -60;
+                    const boxY = startY + (index * 110);
+
+                    // Feature Card Layout & Styling
+                    ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(18, 18, 22, 0.82)';
+                    ctx.strokeStyle = presetObj.primaryColor;
+                    ctx.lineWidth = 2;
+
+                    ctx.beginPath();
+                    ctx.roundRect(100 + slideX, boxY, 880, 85, activePreset === 'urban' ? 0 : 20);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Text
+                    ctx.font = '600 34px Inter';
+                    ctx.fillStyle = isLight ? '#0f172a' : '#ffffff';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(feat, 140 + slideX, boxY + 54);
+
+                    ctx.restore();
+                }
+            });
+        }
+
+        // SCENE 3 (10 - 15s)
+        function renderScene3(localTime) {
+            const progress = localTime / 5.0;
+            const presetObj = PRESETS.find(p => p.id === activePreset) || PRESETS[0];
+
+            drawBackgroundGradient(activePreset, localTime + 10);
+
+            // Hero Image Pulse
+            const pulse = 1.0 + Math.sin(localTime * 4) * 0.025;
+            ctx.save();
+            if (progress < 0.15) ctx.globalAlpha = progress / 0.15;
+            drawImageKenBurns(loadedImages.img3, progress, 1.0 * pulse, 1.08 * pulse, -250);
+            ctx.restore();
+
+            // Promo Badge
+            const badgeText = document.getElementById('inputBadge').value;
+            ctx.save();
+            ctx.translate(CANVAS_WIDTH / 2, 1140);
+            const badgeScale = Math.min(1.0, progress / 0.2);
+            ctx.scale(badgeScale, badgeScale);
+
+            ctx.fillStyle = (activePreset === 'flash' || activePreset === 'urban') ? '#ff003c' : presetObj.primaryColor;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 15;
+            ctx.beginPath();
+            ctx.roundRect(-320, -45, 640, 75, activePreset === 'urban' ? 0 : 38);
+            ctx.fill();
+
+            ctx.font = '900 32px Inter';
+            ctx.fillStyle = (activePreset === 'pastel' || activePreset === 'clean' || activePreset === 'urban' || activePreset === 'flash') ? '#000000' : '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText(badgeText.toUpperCase(), 0, 8);
+            ctx.restore();
+
+            // Price Tags
+            const oldPrice = document.getElementById('inputOldPrice').value;
+            const newPrice = document.getElementById('inputNewPrice').value;
+            const isLight = (activePreset === 'clean' || activePreset === 'pastel');
+
+            ctx.save();
+            ctx.font = '600 38px Inter';
+            ctx.fillStyle = isLight ? '#64748b' : '#a4b0be';
+            ctx.textAlign = 'center';
+            ctx.fillText(oldPrice, CANVAS_WIDTH / 2 - 160, 1280);
+
+            // Strike line
+            ctx.strokeStyle = '#ff4757';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(CANVAS_WIDTH / 2 - 280, 1268);
+            ctx.lineTo(CANVAS_WIDTH / 2 - 40, 1268);
+            ctx.stroke();
+
+            // New Price
+            ctx.font = '900 64px Inter';
+            ctx.fillStyle = (activePreset === 'flash' || activePreset === 'y2k') ? '#ffd700' : (isLight ? '#0f172a' : presetObj.primaryColor);
+            ctx.fillText(newPrice, CANVAS_WIDTH / 2 + 140, 1290);
+            ctx.restore();
+
+            // CTA Button
+            const ctaText = document.getElementById('inputCta').value;
+            const ctaPulse = 1.0 + Math.sin(localTime * 8) * 0.04;
+
+            ctx.save();
+            ctx.translate(CANVAS_WIDTH / 2, 1460);
+            ctx.scale(ctaPulse, ctaPulse);
+
+            ctx.fillStyle = presetObj.primaryColor;
+            ctx.shadowColor = presetObj.primaryColor;
+            ctx.shadowBlur = 20;
+
+            ctx.beginPath();
+            ctx.roundRect(-380, -60, 760, 120, activePreset === 'urban' ? 0 : 60);
+            ctx.fill();
+
+            ctx.font = '900 42px Inter';
+            ctx.fillStyle = (activePreset === 'pastel' || activePreset === 'clean' || activePreset === 'urban' || activePreset === 'flash') ? '#000000' : '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.shadowBlur = 0;
+            ctx.fillText(ctaText.toUpperCase(), 0, 14);
+            ctx.restore();
+        }
+
+        // --- 5. RENDER MAIN ENGINE & LOOP ---
+        function renderFrame(time) {
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            if (time < 5) {
+                renderScene1(time);
+                sceneBadgeText.textContent = "Scene 1: Intro (0-5s)";
+            } else if (time < 10) {
+                renderScene2(time - 5);
+                sceneBadgeText.textContent = "Scene 2: Features (5-10s)";
+            } else {
+                renderScene3(time - 10);
+                sceneBadgeText.textContent = "Scene 3: Offer & CTA (10-15s)";
+            }
+        }
+
+        // Helper: Background Gradient Styles
+        function drawBackgroundGradient(preset) {
+            let grad = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
+            if (preset === 'flash') {
+                grad.addColorStop(0, '#1a0003');
+                grad.addColorStop(0.5, '#40000a');
+                grad.addColorStop(1, '#000000');
+            } else if (preset === 'clean') {
+                grad.addColorStop(0, '#141E30');
+                grad.addColorStop(1, '#243B55');
+            } else { // Luxe (Default)
+                grad.addColorStop(0, '#0f0c29');
+                grad.addColorStop(0.5, '#24243e');
+                grad.addColorStop(1, '#000000');
+            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        }
+
+        // Helper: Draw Scaled & Centered Image with Ken Burns / Transition Effects
+        function drawImageKenBurns(img, progress, zoomStart, zoomEnd, panY = 0) {
+            if (!img) return;
+            const currentZoom = zoomStart + (zoomEnd - zoomStart) * progress;
+
+            ctx.save();
+            ctx.translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + panY);
+            ctx.scale(currentZoom, currentZoom);
+
+            // Cover math for 9:16 frame width & height
+            const imgAspect = img.width / img.height;
+            const targetWidth = 900;
+            const targetHeight = targetWidth / imgAspect;
+
+            // Rounded rectangle clip frame for modern look
+            const rectX = -targetWidth / 2;
+            const rectY = -targetHeight / 2;
+            const radius = 30;
+
+            ctx.beginPath();
+            ctx.moveTo(rectX + radius, rectY);
+            ctx.arcTo(rectX + targetWidth, rectY, rectX + targetWidth, rectY + targetHeight, radius);
+            ctx.arcTo(rectX + targetWidth, rectY + targetHeight, rectX, rectY + targetHeight, radius);
+            ctx.arcTo(rectX, rectY + targetHeight, rectX, rectY, radius);
+            ctx.arcTo(rectX, rectY, rectX + targetWidth, rectY, radius);
+            ctx.closePath();
+            ctx.clip();
+
+            ctx.drawImage(img, rectX, rectY, targetWidth, targetHeight);
+            ctx.restore();
+        }
+
+        // --- SCENE 1 RENDERER (Detik 0 - 5) ---
+        function renderScene1(localTime) {
+            const progress = localTime / 5.0; // 0.0 -> 1.0
+
+            drawBackgroundGradient(activePreset);
+
+            // Subtle Floating Particle Background
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            for (let i = 0; i < 20; i++) {
+                let py = (i * 100 + localTime * 40) % CANVAS_HEIGHT;
+                let px = (Math.sin(i + localTime) * 200) + CANVAS_WIDTH / 2;
+                ctx.beginPath();
+                ctx.arc(px, py, (i % 3) + 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Image Slow Zoom (Ken Burns: 1.0x -> 1.15x)
+            ctx.save();
+            if (progress < 0.2) {
+                ctx.globalAlpha = progress / 0.2; // Fade In
+            } else if (progress > 0.8) {
+                ctx.globalAlpha = (1.0 - progress) / 0.2; // Cross Fade Out
+            }
+            drawImageKenBurns(loadedImages.img1, progress, 1.0, 1.18, -100);
+            ctx.restore();
+
+            // Text Animated Overlay
+            const subTitle = document.getElementById('inputSubtitle1').value;
+            const title = document.getElementById('inputTitle1').value;
+
+            // Subtitle Motion (Slide down + Fade in)
+            ctx.save();
+            const textAlpha = Math.min(1.0, progress / 0.2);
+            ctx.globalAlpha = textAlpha;
+            ctx.textAlign = 'center';
+
+            // Subtitle
+            ctx.font = '700 32px Inter';
+            ctx.fillStyle = activePreset === 'flash' ? '#ffd700' : '#00e5ff';
+            const subY = 1320 + (1 - Math.min(1, progress * 3)) * -40;
+            ctx.fillText(subTitle.toUpperCase(), CANVAS_WIDTH / 2, subY);
+
+            // Title Main Product
+            ctx.font = '900 64px Inter';
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+            ctx.shadowBlur = 15;
+            const titleY = 1410 + (1 - Math.min(1, progress * 3)) * -20;
+            ctx.fillText(title, CANVAS_WIDTH / 2, titleY);
+
+            // Decorative Accent Line
+            ctx.strokeStyle = activePreset === 'flash' ? '#ff4757' : '#00e5ff';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            const lineW = Math.min(300, progress * 800);
+            ctx.moveTo(CANVAS_WIDTH / 2 - lineW / 2, 1460);
+            ctx.lineTo(CANVAS_WIDTH / 2 + lineW / 2, 1460);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // --- SCENE 2 RENDERER (Detik 5 - 10) ---
+        function renderScene2(localTime) {
+            const progress = localTime / 5.0; // 0.0 -> 1.0
+
+            drawBackgroundGradient(activePreset);
+
+            // Image 2 Ken Burns (Zoom out effect 1.2x -> 1.0x)
+            ctx.save();
+            if (progress < 0.15) {
+                ctx.globalAlpha = progress / 0.15; // Cross dissolve in
+            } else if (progress > 0.85) {
+                ctx.globalAlpha = (1.0 - progress) / 0.15; // Fade out
+            }
+            drawImageKenBurns(loadedImages.img2, progress, 1.2, 1.0, -180);
+            ctx.restore();
+
+            // Text Features Staggered Slide In
+            const f1 = document.getElementById('inputFeature1').value;
+            const f2 = document.getElementById('inputFeature2').value;
+            const f3 = document.getElementById('inputFeature3').value;
+
+            const features = [f1, f2, f3];
+            const startY = 1260;
+
+            features.forEach((feat, index) => {
+                const delay = index * 0.15;
+                const featProgress = Math.max(0, Math.min(1, (progress - delay) / 0.2));
+
+                if (featProgress > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = featProgress;
+
+                    // Slide from Left (-50px offset)
+                    const slideX = (1 - featProgress) * -60;
+
+                    // Card Background for text legibility
+                    const boxY = startY + (index * 110);
+                    ctx.fillStyle = 'rgba(20, 20, 25, 0.75)';
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.lineWidth = 2;
+
+                    ctx.beginPath();
+                    ctx.roundRect(100 + slideX, boxY, 880, 85, 16);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Feature Text
+                    ctx.font = '600 36px Inter';
+                    ctx.fillStyle = '#f1f2f6';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(feat, 140 + slideX, boxY + 54);
+
+                    ctx.restore();
+                }
+            });
+        }
+
+        // --- SCENE 3 RENDERER (Detik 10 - 15) ---
+        function renderScene3(localTime) {
+            const progress = localTime / 5.0; // 0.0 -> 1.0
+
+            drawBackgroundGradient(activePreset);
+
+            // Pulse Scale Effect for Hero Product Image
+            const pulse = 1.0 + Math.sin(localTime * 4) * 0.02;
+            ctx.save();
+            if (progress < 0.15) {
+                ctx.globalAlpha = progress / 0.15;
+            }
+            drawImageKenBurns(loadedImages.img3, progress, 1.0 * pulse, 1.08 * pulse, -250);
+            ctx.restore();
+
+            // Promo Badge Box ("DISKON 50%")
+            const badgeText = document.getElementById('inputBadge').value;
+            ctx.save();
+            ctx.translate(CANVAS_WIDTH / 2, 1140);
+            const badgeScale = Math.min(1.0, progress / 0.2);
+            ctx.scale(badgeScale, badgeScale);
+
+            ctx.fillStyle = '#ff4757';
+            ctx.shadowColor = 'rgba(255, 71, 87, 0.5)';
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.roundRect(-300, -45, 600, 75, 40);
+            ctx.fill();
+
+            ctx.font = '900 34px Inter';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText(badgeText, 0, 8);
+            ctx.restore();
+
+            // Price Tags (Old Price Strike & New Promo Price)
+            const oldPrice = document.getElementById('inputOldPrice').value;
+            const newPrice = document.getElementById('inputNewPrice').value;
+
+            ctx.save();
+            // Old Price (Crossed out)
+            ctx.font = '600 38px Inter';
+            ctx.fillStyle = '#a4b0be';
+            ctx.textAlign = 'center';
+            ctx.fillText(oldPrice, CANVAS_WIDTH / 2 - 160, 1280);
+
+            // Strike line
+            ctx.strokeStyle = '#ff4757';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(CANVAS_WIDTH / 2 - 280, 1268);
+            ctx.lineTo(CANVAS_WIDTH / 2 - 40, 1268);
+            ctx.stroke();
+
+            // New Price Bold
+            ctx.font = '900 64px Inter';
+            ctx.fillStyle = activePreset === 'flash' ? '#ffd700' : '#00e5ff';
+            ctx.fillText(newPrice, CANVAS_WIDTH / 2 + 140, 1290);
+            ctx.restore();
+
+            // Call To Action Animated Button ("BELI SEKARANG")
+            const ctaText = document.getElementById('inputCta').value;
+            const ctaPulse = 1.0 + Math.sin(localTime * 8) * 0.05; // Fast Pulse Animation
+
+            ctx.save();
+            ctx.translate(CANVAS_WIDTH / 2, 1460);
+            ctx.scale(ctaPulse, ctaPulse);
+
+            // CTA Button Glow & Fill
+            ctx.fillStyle = activePreset === 'flash' ? '#ffd700' : '#00e5ff';
+            ctx.shadowColor = activePreset === 'flash' ? 'rgba(255, 215, 0, 0.6)' : 'rgba(0, 229, 255, 0.6)';
+            ctx.shadowBlur = 25;
+
+            ctx.beginPath();
+            ctx.roundRect(-380, -60, 760, 120, 60);
+            ctx.fill();
+
+            // CTA Text
+            ctx.font = '900 44px Inter';
+            ctx.fillStyle = '#000000';
+            ctx.textAlign = 'center';
+            ctx.shadowBlur = 0;
+            ctx.fillText(ctaText, 0, 14);
+            ctx.restore();
+        }
+
+
+        // --- 4. PLAYER CONTROLLER & ANIMATION LOOP ---
+        function updateTimelineUI() {
+            timelineSlider.value = currentTime;
+            fsTimelineSlider.value = currentTime;
+
+            const mins = Math.floor(currentTime / 60).toString().padStart(2, '0');
+            const secs = Math.floor(currentTime % 60).toString().padStart(2, '0');
+            const formatted = `${mins}:${secs} / 00:15`;
+            
+            timeDisplay.textContent = formatted;
+            fsTimeDisplay.textContent = formatted;
+        }
+
+        function gameLoop(timestamp) {
+            if (!lastTimestamp) lastTimestamp = timestamp;
+            const deltaTime = (timestamp - lastTimestamp) / 1000;
+            lastTimestamp = timestamp;
+
+            if (isPlaying) {
+                currentTime += deltaTime;
+                if (currentTime >= TOTAL_DURATION) {
+                    currentTime = 0; // Loop back
+                }
+                updateTimelineUI();
+            }
+
+            renderFrame(currentTime);
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function playVideo() {
+            if (isPlaying) return;
+            isPlaying = true;
+            lastTimestamp = 0;
+            const playIcon = '<i class="fa-solid fa-pause"></i>';
+            btnPlay.innerHTML = playIcon;
+            overlayPlayBtn.innerHTML = playIcon;
+            fsBtnPlay.innerHTML = playIcon;
+        }
+
+        function pauseVideo() {
+            isPlaying = false;
+            const playIcon = '<i class="fa-solid fa-play ml-0.5"></i>';
+            btnPlay.innerHTML = playIcon;
+            overlayPlayBtn.innerHTML = '<i class="fa-solid fa-play ml-1"></i>';
+            fsBtnPlay.innerHTML = playIcon;
+        }
+
+        function stopVideo() {
+            pauseVideo();
+            currentTime = 0;
+            updateTimelineUI();
+            renderFrame(0);
+        }
+
+        function seekTo(time) {
+            currentTime = parseFloat(time);
+            updateTimelineUI();
+            renderFrame(currentTime);
+        }
+
+        // --- FULLSCREEN CONTROLLER ---
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+
+        function enterFullscreen() {
+            const el = videoMonitorContainer;
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.mozRequestFullScreen) {
+                el.mozRequestFullScreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            } else {
+                // Fallback for browsers that don't support full screen API
+                el.classList.add('fullscreen-active');
+            }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+            videoMonitorContainer.classList.remove('fullscreen-active');
+        }
+
+        // Listen for standard Fullscreen Change Events
+        function handleFullscreenChange() {
+            const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+            if (isFS) {
+                videoMonitorContainer.classList.add('fullscreen-active');
+                btnFullscreen.innerHTML = '<i class="fa-solid fa-compress"></i>';
+            } else {
+                videoMonitorContainer.classList.remove('fullscreen-active');
+                btnFullscreen.innerHTML = '<i class="fa-solid fa-expand"></i>';
+            }
+            // Trigger frame re-render for precise canvas fitting
+            setTimeout(() => renderFrame(currentTime), 50);
+        }
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+
+        // --- 5. EVENT LISTENERS & INTERACTVITIY ---
+        btnPlay.addEventListener('click', () => {
+            if (isPlaying) pauseVideo(); else playVideo();
+        });
+
+        fsBtnPlay.addEventListener('click', () => {
+            if (isPlaying) pauseVideo(); else playVideo();
+        });
+
+        overlayPlayBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isPlaying) pauseVideo(); else playVideo();
+        });
+
+        canvasOverlay.addEventListener('click', () => {
+            if (isPlaying) pauseVideo(); else playVideo();
+        });
+
+        btnStop.addEventListener('click', stopVideo);
+
+        btnFullscreen.addEventListener('click', toggleFullscreen);
+        fsBtnExit.addEventListener('click', exitFullscreen);
+
+        timelineSlider.addEventListener('input', (e) => {
+            seekTo(e.target.value);
+        });
+
+        fsTimelineSlider.addEventListener('input', (e) => {
+            seekTo(e.target.value);
+        });
+
+        // Tab Switching Logic
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active', 'border-capcut-accent', 'text-white');
+                    b.classList.add('border-transparent');
+                });
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+
+                btn.classList.add('active', 'border-capcut-accent', 'text-white');
+                btn.classList.remove('border-transparent');
+                document.getElementById(btn.dataset.tab).classList.remove('hidden');
+            });
+        });
+
+        // Template Preset Selection
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.preset-btn').forEach(b => {
+                    b.classList.remove('border-capcut-accent');
+                    b.classList.add('border-capcut-border');
+                    const icon = b.querySelector('.fa-check');
+                    if (icon) icon.remove();
+                });
+                btn.classList.remove('border-capcut-border');
+                btn.classList.add('border-capcut-accent');
+                btn.insertAdjacentHTML('beforeend', '<i class="fa-solid fa-check text-capcut-accent"></i>');
+
+                activePreset = btn.dataset.style;
+                renderFrame(currentTime);
+            });
+        });
+
+        // Dynamic Real-time Text Inputs Listener
+        const textInputIds = ['inputSubtitle1', 'inputTitle1', 'inputFeature1', 'inputFeature2', 'inputFeature3', 'inputBadge', 'inputOldPrice', 'inputNewPrice', 'inputCta'];
+        textInputIds.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                renderFrame(currentTime);
+            });
+        });
+
+        // Custom User Image Upload Listeners
+        function setupImageUploader(inputId, thumbId, imgKey) {
+            document.getElementById(inputId).addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        const newImg = new Image();
+                        newImg.onload = () => {
+                            loadedImages[imgKey] = newImg;
+                            document.getElementById(thumbId).src = evt.target.result;
+                            renderFrame(currentTime);
+                        };
+                        newImg.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        setupImageUploader('fileImg1', 'thumb1', 'img1');
+        setupImageUploader('fileImg2', 'thumb2', 'img2');
+        setupImageUploader('fileImg3', 'thumb3', 'img3');
+
+
+        // --- 6. EXPORT VIDEO IMPLEMENTATION (MediaRecorder API) ---
+        exportBtn.addEventListener('click', () => {
+            if (typeof MediaRecorder === 'undefined') {
+                alert('Browser Anda tidak mendukung perekaman MediaRecorder API.');
+                return;
+            }
+
+            // Pause live loop during capture setup
+            stopVideo();
+            exportBtn.disabled = true;
+            exportBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> <span>Rendering MP4...</span>';
+
+            // Capture Canvas Stream at 60 FPS
+            const stream = canvas.captureStream(60);
+            const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+            const chunks = [];
+
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ECommerce_Promo_15s_${Date.now()}.webm`;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                exportBtn.disabled = false;
+                exportBtn.innerHTML = '<i class="fa-solid fa-download"></i> <span>Export MP4 (WebM)</span>';
+            };
+
+            recorder.start();
+
+            // Execute deterministic 15s recording loop
+            let recTime = 0;
+            const step = 1 / 60; // 60 FPS steps
+            const recInterval = setInterval(() => {
+                recTime += step;
+                currentTime = recTime;
+                updateTimelineUI();
+                renderFrame(recTime);
+
+                if (recTime >= TOTAL_DURATION) {
+                    clearInterval(recInterval);
+                    recorder.stop();
+                    currentTime = 0;
+                    renderFrame(0);
+                }
+            }, 1000 / 60);
+        });
+
+
+        // --- INITIALIZATION ON WINDOW LOAD ---
+        window.onload = async () => {
+            await preLoadAllAssets();
+            requestAnimationFrame(gameLoop);
+        };
+    </script>
+</body>
+</html>
+```
