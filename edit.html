@@ -3,169 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CapCut E-Commerce Video Studio</title>
+    <title>CapCut E-Commerce Video Studio 3.0</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom Styling & Scrollbar */
-        body { background-color: #0d0f12; color: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #1a1d24; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-        /* Fullscreen handling for Canvas Container */
+        body { background-color: #0b0f17; color: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        
         .fullscreen-active {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
+            top: 0 !important; left: 0 !important;
+            width: 100vw !important; height: 100vh !important;
             z-index: 9999 !important;
             background-color: #000000 !important;
             display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            border-radius: 0 !important;
+            align-items: center !important; justify-content: center !important;
         }
-
         .fullscreen-active canvas {
             max-height: 100vh !important;
             max-width: calc(100vh * (9/16)) !important;
-            width: auto !important;
-            height: 100% !important;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            width: auto !important; height: 100% !important;
         }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
-    <!-- Top Navigation Header -->
-    <header class="h-14 border-b border-slate-800 bg-slate-900/80 px-4 flex items-center justify-between shrink-0">
-        <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20">
-                🎬
-            </div>
+    <!-- Header Navigation -->
+    <header class="h-14 border-b border-slate-800 bg-slate-900 px-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-2">
+            <span class="text-xl">⚡</span>
             <div>
-                <h1 class="text-sm font-bold tracking-wide text-slate-100 flex items-center gap-2">
-                    CapCut E-Com Studio <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded font-mono">v2.0 Fix</span>
-                </h1>
-                <p class="text-[10px] text-slate-400">Editor Video Promosi Vertikal 9:16 (15 Detik)</p>
+                <h1 class="text-xs md:text-sm font-bold text-white tracking-wide">Studio Video E-Com 15s</h1>
+                <p class="text-[10px] text-cyan-400 font-mono">1 Foto Auto Video Modern</p>
             </div>
         </div>
-        <div class="flex items-center space-x-3">
-            <button id="fullscreenBtn" onclick="toggleFullscreen()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-slate-700 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-                Full Screen
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleFullscreen()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 flex items-center gap-1">
+                <span>fullscreen</span>
             </button>
-            <button id="exportBtn" onclick="startExport()" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-cyan-500/25 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                Export MP4/WebM (15s)
+            <button id="exportBtn" onclick="startExport()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition flex items-center gap-1">
+                <span>⬇️ Export 15s</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <div class="flex-1 flex overflow-hidden">
+    <!-- Main Workspace (Responsive Desktop & Mobile Grid) -->
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
         
-        <!-- Left Panel: Controls & Templates -->
-        <aside class="w-80 border-r border-slate-800 bg-slate-900/50 flex flex-col shrink-0">
-            <!-- Tabs Header -->
-            <div class="flex border-b border-slate-800 bg-slate-900">
-                <button onclick="switchTab('text')" id="tab-text" class="flex-1 py-3 text-xs font-semibold text-cyan-400 border-b-2 border-cyan-400 transition">Konten Teks</button>
-                <button onclick="switchTab('templates')" id="tab-templates" class="flex-1 py-3 text-xs font-semibold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition">15 Template Modern</button>
-            </div>
-
-            <!-- Tab Content: Text Editor -->
-            <div id="panel-text" class="p-4 space-y-4 overflow-y-auto flex-1">
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Foto Produk</label>
-                    <input type="file" id="imageUploader" accept="image/*" onchange="handleImageUpload(event)" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-cyan-400 hover:file:bg-slate-700 cursor-pointer bg-slate-950 p-1.5 rounded-lg border border-slate-800">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Judul Utama (Scene 1)</label>
-                    <input type="text" id="inputTitle" value="DOMPET KULIT PREMIUM" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Nama Produk</label>
-                    <input type="text" id="inputSubtitle" value="Elegance Leather Edition" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Keunggulan (Scene 2 - Pisah Koma)</label>
-                    <textarea id="inputFeatures" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 h-20">100% Kulit Sintetis Premium, Slot Kartu Anti-RFID, Desain Slim & Elegan</textarea>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Harga Promo</label>
-                        <input type="text" id="inputPrice" value="Rp 99.000" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
-                    </div>
-                    <div>
-                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Harga Coret</label>
-                        <input type="text" id="inputOldPrice" value="Rp 250.000" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
-                    </div>
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Teks Tombol CTA</label>
-                    <input type="text" id="inputCta" value="BELI SEKARANG" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
-                </div>
-            </div>
-
-            <!-- Tab Content: 15 Modern Templates Grid -->
-            <div id="panel-templates" class="p-3 space-y-2 overflow-y-auto flex-1 hidden">
-                <div class="grid grid-cols-1 gap-2" id="templateGrid"></div>
-            </div>
-        </aside>
-
         <!-- Center Canvas Preview Area -->
-        <main class="flex-1 bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden">
-            <!-- Fullscreen Exit Floating Button -->
-            <button id="exitFullscreenBtn" onclick="exitFullscreen()" class="hidden fixed top-4 right-4 z-50 bg-slate-900/90 hover:bg-slate-800 text-white px-4 py-2 rounded-full border border-slate-700 shadow-2xl text-xs font-semibold flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                Keluar Fullscreen (ESC)
+        <main class="flex-1 bg-slate-950 flex flex-col items-center justify-center p-3 relative overflow-hidden order-1 md:order-2">
+            <button id="exitFullscreenBtn" onclick="exitFullscreen()" class="hidden fixed top-4 right-4 z-50 bg-slate-900/90 hover:bg-slate-800 text-white px-4 py-2 rounded-full border border-slate-700 text-xs font-semibold">
+                ✖ Keluar (ESC)
             </button>
 
             <!-- Video Player Box Container -->
-            <div id="playerContainer" class="relative flex flex-col items-center justify-center h-full max-h-[82vh]">
+            <div id="playerContainer" class="relative flex flex-col items-center justify-center h-full max-h-[70vh] md:max-h-[82vh] w-full">
                 <!-- Canvas Element (9:16 Aspect Ratio) -->
                 <canvas id="videoCanvas" width="1080" height="1920" class="h-full aspect-[9/16] bg-black rounded-xl shadow-2xl border border-slate-800 object-contain"></canvas>
 
-                <!-- Floating Video Controls Bar -->
-                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur border border-slate-700/80 rounded-full px-4 py-2 flex items-center space-x-3 shadow-2xl z-30 min-w-[280px]">
-                    <button id="playBtn" onclick="togglePlay()" class="w-8 h-8 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center font-bold transition shadow-lg shadow-cyan-500/20">
+                <!-- Floating Video Player Controls -->
+                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur border border-slate-700/80 rounded-full px-3 py-1.5 flex items-center space-x-2 shadow-2xl z-30 w-[85%] max-w-[320px]">
+                    <button id="playBtn" onclick="togglePlay()" class="w-7 h-7 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center font-bold transition text-xs shrink-0">
                         ▶
                     </button>
                     <input type="range" id="timeScrubber" min="0" max="15" step="0.05" value="0" oninput="seekVideo(this.value)" class="flex-1 accent-cyan-400 h-1.5 bg-slate-700 rounded-lg cursor-pointer">
-                    <span id="timeDisplay" class="font-mono text-xs text-slate-300 w-12 text-right">00:00</span>
+                    <span id="timeDisplay" class="font-mono text-[11px] text-slate-300 w-10 text-right shrink-0">00:00</span>
                 </div>
             </div>
         </main>
+
+        <!-- Left / Bottom Controls & Template Panel -->
+        <aside class="w-full md:w-80 border-t md:border-t-0 md:border-r border-slate-800 bg-slate-900/60 flex flex-col shrink-0 order-2 md:order-1 h-[35vh] md:h-auto">
+            <!-- Navigation Tabs -->
+            <div class="flex border-b border-slate-800 bg-slate-900 shrink-0">
+                <button onclick="switchTab('text')" id="tab-text" class="flex-1 py-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 transition">📝 Teks & Foto</button>
+                <button onclick="switchTab('templates')" id="tab-templates" class="flex-1 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition">🎨 15 Template</button>
+            </div>
+
+            <!-- Tab Content 1: Quick Text & Auto-Photo Editor -->
+            <div id="panel-text" class="p-3 space-y-3 overflow-y-auto flex-1 text-xs">
+                <div class="bg-cyan-950/40 border border-cyan-800/50 p-2 rounded-lg">
+                    <label class="text-[11px] font-bold text-cyan-300 block mb-1">📸 Upload 1 Foto Produk (Auto-Video)</label>
+                    <input type="file" id="imageUploader" accept="image/*" onchange="handleImageUpload(event)" class="w-full text-slate-400 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-xs file:bg-cyan-500 file:text-slate-950 file:font-bold hover:file:bg-cyan-400 cursor-pointer bg-slate-950 p-1 rounded border border-slate-800">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Judul Promosi (Scene 1)</label>
+                    <input type="text" id="inputTitle" value="DOMPET KULIT PREMIUM" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Nama Produk</label>
+                    <input type="text" id="inputSubtitle" value="Elegance Leather Edition" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Keunggulan (Scene 2 - Pisah Koma)</label>
+                    <textarea id="inputFeatures" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500 h-14">100% Kulit Sintetis, Slot Anti-RFID, Desain Slim Minimalis</textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Harga Promo</label>
+                        <input type="text" id="inputPrice" value="Rp 99.000" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Harga Coret</label>
+                        <input type="text" id="inputOldPrice" value="Rp 250.000" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Teks Tombol CTA</label>
+                    <input type="text" id="inputCta" value="BELI SEKARANG" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                </div>
+            </div>
+
+            <!-- Tab Content 2: 15 Modern Templates Grid -->
+            <div id="panel-templates" class="p-2 space-y-1.5 overflow-y-auto flex-1 hidden">
+                <div class="grid grid-cols-1 gap-1.5" id="templateGrid"></div>
+            </div>
+        </aside>
     </div>
 
-    <!-- Bottom Timeline Track & Scene Blocks -->
-    <footer class="h-24 border-t border-slate-800 bg-slate-900 px-6 py-2 flex flex-col justify-between shrink-0">
-        <div class="flex items-center justify-between text-xs text-slate-400">
-            <span class="font-bold flex items-center gap-2">⏱️ Timeline Editor (15 Detik)</span>
-            <div class="flex items-center space-x-4 text-[11px]">
-                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> 0-5s: Intro & Zoom</span>
-                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> 5-10s: Fitur Fitur</span>
-                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> 10-15s: Harga & CTA</span>
+    <!-- Timeline Footer Track -->
+    <footer class="h-16 border-t border-slate-800 bg-slate-900 px-4 py-1.5 flex flex-col justify-between shrink-0">
+        <div class="flex items-center justify-between text-[11px] text-slate-400">
+            <span class="font-bold flex items-center gap-1 text-slate-300">⏱️ Visual Timeline (15 Detik)</span>
+            <div class="flex items-center space-x-3 text-[10px]">
+                <span class="text-cyan-400">0-5s Intro</span>
+                <span class="text-blue-400">5-10s Fitur</span>
+                <span class="text-purple-400">10-15s Promo</span>
             </div>
         </div>
         
-        <!-- Timeline Track Visual -->
-        <div class="relative w-full h-10 bg-slate-950 rounded-lg border border-slate-800 overflow-hidden flex cursor-pointer" onclick="handleTimelineClick(event)">
-            <div class="w-1/3 h-full border-r border-slate-800/60 bg-cyan-950/20 px-2 py-1 text-[10px] font-medium text-cyan-400 flex items-center truncate">Scene 1: Intro</div>
-            <div class="w-1/3 h-full border-r border-slate-800/60 bg-blue-950/20 px-2 py-1 text-[10px] font-medium text-blue-400 flex items-center truncate">Scene 2: Keunggulan</div>
-            <div class="w-1/3 h-full bg-purple-950/20 px-2 py-1 text-[10px] font-medium text-purple-400 flex items-center truncate">Scene 3: Promo & CTA</div>
+        <!-- Timeline Bar -->
+        <div class="relative w-full h-6 bg-slate-950 rounded border border-slate-800 overflow-hidden flex cursor-pointer" onclick="handleTimelineClick(event)">
+            <div class="w-1/3 h-full border-r border-slate-800 bg-cyan-950/20 px-2 py-0.5 text-[9px] font-semibold text-cyan-400 flex items-center truncate">Scene 1</div>
+            <div class="w-1/3 h-full border-r border-slate-800 bg-blue-950/20 px-2 py-0.5 text-[9px] font-semibold text-blue-400 flex items-center truncate">Scene 2</div>
+            <div class="w-1/3 h-full bg-purple-950/20 px-2 py-0.5 text-[9px] font-semibold text-purple-400 flex items-center truncate">Scene 3</div>
             
-            <!-- Playhead Indicator Line -->
             <div id="playhead" class="absolute top-0 bottom-0 w-0.5 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] z-10 pointer-events-none" style="left: 0%;"></div>
         </div>
     </footer>
 
-    <!-- Main Studio Script Logic -->
+    <!-- Main JS Application Logic -->
     <script>
-        // Global Canvas & Engine State
         const DURATION = 15;
         let canvas, ctx;
         let isPlaying = false;
@@ -174,7 +154,7 @@
         let isExporting = false;
         let activeTemplate = 'luxe';
 
-        // Public High Quality Leather Wallet CDN Images
+        // Direct CDN Public Images
         const walletImages = [
             'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1000&q=80',
             'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=80',
@@ -201,11 +181,9 @@
             editorial: { name: "Magz Editorial", bg: ["#fafaf9", "#d6d3d1"], accent: "#1c1917", text: "#1c1917", badge: "OFFICIAL" }
         };
 
-        // Initialize Application
         window.onload = function() {
             canvas = document.getElementById('videoCanvas');
             ctx = canvas.getContext('2d');
-
             preloadImages(() => {
                 renderTemplateSelector();
                 drawScene();
@@ -213,7 +191,6 @@
             });
         };
 
-        // Preload Images from CDN
         function preloadImages(callback) {
             let loadedCount = 0;
             walletImages.forEach((src, idx) => {
@@ -232,7 +209,7 @@
             });
         }
 
-        // Handle Custom Image Upload
+        // FITUR "1 FOTO JADI VIDEO 15 DETIK"
         function handleImageUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -240,7 +217,10 @@
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
+                    // Gunakan 1 foto ini untuk SEMUA scene secara otomatis
                     loadedImages[0] = img;
+                    loadedImages[1] = img;
+                    loadedImages[2] = img;
                     drawScene();
                 };
                 img.src = event.target.result;
@@ -248,19 +228,16 @@
             reader.readAsDataURL(file);
         }
 
-        // Render Template Selector UI
         function renderTemplateSelector() {
             const grid = document.getElementById('templateGrid');
             grid.innerHTML = '';
-            
             Object.keys(templates).forEach(key => {
                 const t = templates[key];
                 const activeClass = activeTemplate === key ? 'border-cyan-400 bg-slate-800' : 'border-slate-800 bg-slate-950 hover:border-slate-700';
-                
                 grid.innerHTML += `
-                    <div onclick="selectTemplate('${key}')" class="p-2.5 rounded-lg border ${activeClass} cursor-pointer flex items-center justify-between transition">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="w-6 h-6 rounded-full border border-slate-700 shadow" style="background: linear-gradient(135deg, ${t.bg[0]}, ${t.bg[1]})"></div>
+                    <div onclick="selectTemplate('${key}')" class="p-2 rounded border ${activeClass} cursor-pointer flex items-center justify-between transition">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-5 h-5 rounded-full border border-slate-700 shadow" style="background: linear-gradient(135deg, ${t.bg[0]}, ${t.bg[1]})"></div>
                             <span class="text-xs font-medium text-slate-200">${t.name}</span>
                         </div>
                         <span class="text-[9px] px-1.5 py-0.5 rounded font-bold" style="background:${t.accent}20; color:${t.accent}">${t.badge}</span>
@@ -278,11 +255,10 @@
         function switchTab(tab) {
             document.getElementById('panel-text').classList.toggle('hidden', tab !== 'text');
             document.getElementById('panel-templates').classList.toggle('hidden', tab !== 'templates');
-            document.getElementById('tab-text').className = tab === 'text' ? 'flex-1 py-3 text-xs font-semibold text-cyan-400 border-b-2 border-cyan-400 transition' : 'flex-1 py-3 text-xs font-semibold text-slate-400 border-b-2 border-transparent transition';
-            document.getElementById('tab-templates').className = tab === 'templates' ? 'flex-1 py-3 text-xs font-semibold text-cyan-400 border-b-2 border-cyan-400 transition' : 'flex-1 py-3 text-xs font-semibold text-slate-400 border-b-2 border-transparent transition';
+            document.getElementById('tab-text').className = tab === 'text' ? 'flex-1 py-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 transition' : 'flex-1 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent transition';
+            document.getElementById('tab-templates').className = tab === 'templates' ? 'flex-1 py-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 transition' : 'flex-1 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent transition';
         }
 
-        // Play / Pause Animation Loop Controls
         function togglePlay() {
             isPlaying = !isPlaying;
             document.getElementById('playBtn').innerText = isPlaying ? '⏸' : '▶';
@@ -306,18 +282,12 @@
 
         function animationLoop(timestamp) {
             if (!isPlaying) return;
-
             const delta = (timestamp - lastTimestamp) / 1000;
             lastTimestamp = timestamp;
             currentTime += delta;
-
-            if (currentTime >= DURATION) {
-                currentTime = 0; // Loop back
-            }
-
+            if (currentTime >= DURATION) currentTime = 0;
             updateUI();
             drawScene();
-
             if (isPlaying) requestAnimationFrame(animationLoop);
         }
 
@@ -325,7 +295,6 @@
             document.getElementById('timeScrubber').value = currentTime;
             const pct = (currentTime / DURATION) * 100;
             document.getElementById('playhead').style.left = `${pct}%`;
-
             const mins = Math.floor(currentTime / 60).toString().padStart(2, '0');
             const secs = Math.floor(currentTime % 60).toString().padStart(2, '0');
             document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
@@ -335,19 +304,19 @@
             drawScene();
         }
 
-        // Canvas Video Renderer Engine
+        // ANIMASI E-COMMERCE CANGGIH DI CANVAS
         function drawScene() {
             if (!ctx) return;
             const t = templates[activeTemplate];
 
-            // 1. Draw Background Gradient
+            // 1. Dynamic Gradient Background
             const grad = ctx.createLinearGradient(0, 0, 0, 1920);
             grad.addColorStop(0, t.bg[0]);
             grad.addColorStop(1, t.bg[1]);
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, 1080, 1920);
 
-            // 2. Scene Selector Logic (0-5s, 5-10s, 10-15s)
+            // 2. Timeline Scene Branching
             if (currentTime < 5) {
                 drawScene1(currentTime, t);
             } else if (currentTime < 10) {
@@ -356,23 +325,22 @@
                 drawScene3(currentTime - 10, t);
             }
 
-            // 3. Persistent Watermark / Badge
+            // Top Promo Watermark Badge
             ctx.fillStyle = t.accent;
             ctx.font = 'bold 32px sans-serif';
             ctx.textAlign = 'right';
             ctx.fillText(`PROMO 15s • ${t.badge}`, 1020, 100);
         }
 
-        // Scene 1: Intro + Ken Burns Zoom
+        // Scene 1 (0-5s): Ken Burns Slow Zoom
         function drawScene1(time, t) {
             const progress = time / 5;
             const img = loadedImages[0];
             const title = document.getElementById('inputTitle').value;
             const subtitle = document.getElementById('inputSubtitle').value;
 
-            // Ken Burns Effect (Slow Zoom)
             if (img) {
-                const scale = 1 + progress * 0.15;
+                const scale = 1 + progress * 0.18;
                 ctx.save();
                 ctx.translate(540, 800);
                 ctx.scale(scale, scale);
@@ -380,42 +348,37 @@
                 ctx.restore();
             }
 
-            // Animated Text Card Fade In
             const textY = 1450 - progress * 30;
             const alpha = Math.min(time * 2, 1);
-
             ctx.save();
             ctx.globalAlpha = alpha;
             ctx.fillStyle = 'rgba(0,0,0,0.5)';
             ctx.fillRect(100, textY - 120, 880, 240);
-
             ctx.fillStyle = t.accent;
             ctx.font = 'bold 64px sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(title, 540, textY);
-
             ctx.fillStyle = t.text;
             ctx.font = '36px sans-serif';
             ctx.fillText(subtitle, 540, textY + 60);
             ctx.restore();
         }
 
-        // Scene 2: Slide Transition + Features
+        // Scene 2 (5-10s): Dynamic Parallax Float & Rotate
         function drawScene2(time, t) {
-            const progress = time / 5;
             const img = loadedImages[1] || loadedImages[0];
             const features = document.getElementById('inputFeatures').value.split(',');
 
-            // Horizontal Slide Effect
-            const slideX = (1 - Math.min(time * 2, 1)) * 1080;
-
             if (img) {
+                const floatY = Math.sin(time * 3) * 20;
+                const rotateAngle = Math.sin(time * 2) * 0.04;
                 ctx.save();
-                ctx.drawImage(img, 140 + slideX, 350, 800, 800);
+                ctx.translate(540, 650 + floatY);
+                ctx.rotate(rotateAngle);
+                ctx.drawImage(img, -350, -350, 700, 700);
                 ctx.restore();
             }
 
-            // List Features Animation
             ctx.textAlign = 'left';
             features.forEach((feat, idx) => {
                 const delayTime = idx * 0.8;
@@ -423,11 +386,8 @@
                     const itemAlpha = Math.min((time - delayTime) * 2, 1);
                     ctx.save();
                     ctx.globalAlpha = itemAlpha;
-
-                    // Feature Pill
                     ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
                     ctx.fillRect(100, 1250 + (idx * 110), 880, 85);
-
                     ctx.fillStyle = t.accent;
                     ctx.font = 'bold 40px sans-serif';
                     ctx.fillText(`✓ ${feat.trim()}`, 140, 1310 + (idx * 110));
@@ -436,27 +396,27 @@
             });
         }
 
-        // Scene 3: Price & Pulsing CTA
+        // Scene 3 (10-15s): Bounce Zoom + Price Tag & Pulsing CTA
         function drawScene3(time, t) {
-            const progress = time / 5;
             const img = loadedImages[2] || loadedImages[0];
             const price = document.getElementById('inputPrice').value;
             const oldPrice = document.getElementById('inputOldPrice').value;
             const cta = document.getElementById('inputCta').value;
 
-            // Product Display
             if (img) {
+                const scale = 1 + Math.sin(time * 4) * 0.03;
                 ctx.save();
-                ctx.drawImage(img, 240, 250, 600, 600);
+                ctx.translate(540, 550);
+                ctx.scale(scale, scale);
+                ctx.drawImage(img, -300, -300, 600, 600);
                 ctx.restore();
             }
 
-            // Price Tags
+            // Strikethrough Old Price
             ctx.textAlign = 'center';
             ctx.fillStyle = 'rgba(255,255,255,0.6)';
             ctx.font = '40px sans-serif';
             ctx.fillText(oldPrice, 540, 950);
-            // Strikethrough line
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 6;
             ctx.beginPath();
@@ -474,12 +434,10 @@
             ctx.save();
             ctx.translate(540, 1400);
             ctx.scale(pulse, pulse);
-
             ctx.fillStyle = t.accent;
             ctx.shadowColor = t.accent;
             ctx.shadowBlur = 30;
             ctx.fillRect(-350, -70, 700, 140);
-
             ctx.fillStyle = '#000000';
             ctx.font = 'bold 50px sans-serif';
             ctx.shadowBlur = 0;
@@ -487,7 +445,7 @@
             ctx.restore();
         }
 
-        // Fix Export MP4 / WebM Duration Logic
+        // Precision Recording Export System (Pass 15s Exactly)
         function startExport() {
             if (isExporting) return;
             isExporting = true;
@@ -498,21 +456,14 @@
             exportBtn.disabled = true;
             exportBtn.classList.add('animate-pulse');
 
-            // 1. Capture 60 FPS Canvas Stream
             const stream = canvas.captureStream(60);
             let mimeType = 'video/webm;codecs=vp9';
             if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm;codecs=vp8';
             if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
 
-            const mediaRecorder = new MediaRecorder(stream, {
-                mimeType: mimeType,
-                videoBitsPerSecond: 8000000
-            });
-
+            const mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType, videoBitsPerSecond: 8000000 });
             const chunks = [];
-            mediaRecorder.ondataavailable = (e) => {
-                if (e.data && e.data.size > 0) chunks.push(e.data);
-            };
+            mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
             mediaRecorder.onstop = () => {
                 const blob = new Blob(chunks, { type: mimeType });
@@ -528,18 +479,13 @@
                 isExporting = false;
                 exportBtn.disabled = false;
                 exportBtn.classList.remove('animate-pulse');
-                exportBtn.innerHTML = `
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    Export MP4/WebM (15s)
-                `;
-                
+                exportBtn.innerHTML = `<span>⬇️ Export 15s</span>`;
                 isPlaying = true;
                 requestAnimationFrame(animationLoop);
             };
 
             mediaRecorder.start(100);
 
-            // Precision Time Render Sync Loop
             let startTime = null;
             function renderStep(timestamp) {
                 if (!startTime) startTime = timestamp;
@@ -551,7 +497,7 @@
 
                 if (currentTime < DURATION && isExporting) {
                     const pct = Math.floor((currentTime / DURATION) * 100);
-                    exportBtn.innerHTML = `⏺️ Rendering... ${pct}%`;
+                    exportBtn.innerText = `⏺️ ${pct}%`;
                     requestAnimationFrame(renderStep);
                 } else {
                     currentTime = DURATION;
@@ -559,31 +505,25 @@
                     mediaRecorder.stop();
                 }
             }
-
             requestAnimationFrame(renderStep);
         }
 
-        // Fullscreen API Handling
         function toggleFullscreen() {
             const container = document.getElementById('playerContainer');
             if (!document.fullscreenElement) {
                 if (container.requestFullscreen) container.requestFullscreen();
-                else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
             } else {
                 if (document.exitFullscreen) document.exitFullscreen();
             }
         }
 
         function exitFullscreen() {
-            if (document.fullscreenElement && document.exitFullscreen) {
-                document.exitFullscreen();
-            }
+            if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
         }
 
         function setupFullscreenListeners() {
             const container = document.getElementById('playerContainer');
             const exitBtn = document.getElementById('exitFullscreenBtn');
-
             document.addEventListener('fullscreenchange', () => {
                 if (document.fullscreenElement) {
                     container.classList.add('fullscreen-active');
