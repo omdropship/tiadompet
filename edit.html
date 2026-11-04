@@ -1,165 +1,244 @@
+
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CapCut E-Commerce Video Studio 3.5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CapCut E-Com Mobile Studio (9:16)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        capcut: {
+                            bg: '#090a0f',
+                            card: '#12151e',
+                            panel: '#1a1e2b',
+                            border: '#2a3042',
+                            accent: '#00e5ff',
+                            accentHover: '#00b8cc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #080a0f; color: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        
-        /* Fullscreen handling for Canvas Container */
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #090a0f;
+            color: #f1f5f9;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Fullscreen handling */
         .fullscreen-active {
             position: fixed !important;
-            top: 0 !important; left: 0 !important;
-            width: 100vw !important; height: 100vh !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
             z-index: 9999 !important;
             background-color: #000000 !important;
             display: flex !important;
-            align-items: center !important; justify-content: center !important;
-        }
-        .fullscreen-active canvas {
-            max-height: 100vh !important;
-            max-width: calc(100vh * (9/16)) !important;
-            width: auto !important; height: 100% !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
 
-        /* Ambient Canvas Glow Background */
-        .canvas-glow {
-            box-shadow: 0 0 50px -10px rgba(56, 189, 248, 0.25);
+        /* Custom Touch-Friendly Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #00e5ff;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: #2a3042;
+            border-radius: 2px;
         }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
+<body class="h-screen w-screen flex flex-col overflow-hidden">
 
-    <!-- Top Header Navigation Bar -->
-    <header class="h-12 border-b border-slate-800/80 bg-slate-900/90 px-4 flex items-center justify-between shrink-0 z-20">
-        <div class="flex items-center space-x-2">
-            <span class="text-lg">🎬</span>
+    <!-- 1. MOBILE COMPACT HEADER -->
+    <header class="h-12 bg-capcut-card border-b border-capcut-border flex items-center justify-between px-3 shrink-0 z-30">
+        <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-xs font-black shadow-lg shadow-cyan-500/20">
+                <i class="fa-solid fa-scissors"></i>
+            </div>
             <div>
-                <h1 class="text-xs md:text-sm font-bold text-white tracking-wide flex items-center gap-2">
-                    CapCut E-Com Studio <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.2 rounded font-mono">v3.5 Focus</span>
-                </h1>
+                <h1 class="text-xs font-bold text-white tracking-wide leading-tight">CapCut Mobile</h1>
+                <p class="text-[9px] text-cyan-400 font-mono">1 Foto Auto 15s</p>
             </div>
         </div>
-        <div class="flex items-center space-x-2">
-            <button onclick="togglePanel()" class="md:hidden px-2 py-1 rounded bg-slate-800 text-slate-300 text-[11px] font-medium border border-slate-700">
-                🎛️ Panel
+
+        <div class="flex items-center gap-2">
+            <button onclick="toggleFullscreen()" class="w-8 h-8 rounded-lg bg-capcut-panel border border-capcut-border text-slate-300 flex items-center justify-center text-xs active:scale-95 transition" title="Layar Penuh">
+                <i class="fa-solid fa-expand"></i>
             </button>
-            <button onclick="toggleFullscreen()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 flex items-center gap-1 transition">
-                <span>🖥️ Fullscreen</span>
-            </button>
-            <button id="exportBtn" onclick="startExport()" class="px-3 py-1 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition flex items-center gap-1">
-                <span>⬇️ Export 15s</span>
+            <button id="exportBtn" onclick="startExport()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-lg shadow-cyan-500/25 active:scale-95 transition">
+                <i class="fa-solid fa-download"></i>
+                <span>Export 15s</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Workspace (Focus on Video Area) -->
-    <div class="flex-1 flex overflow-hidden relative">
+    <!-- 2. MAIN PREVIEW AREA (UPPER HALF - MOBILE FIRST HERO) -->
+    <main class="h-[48vh] md:h-[55vh] bg-black relative flex items-center justify-center shrink-0 border-b border-capcut-border overflow-hidden">
         
-        <!-- Left Panel: Compact Controls & 15 Templates -->
-        <aside id="sidePanel" class="w-full md:w-80 border-r border-slate-800/80 bg-slate-900/80 backdrop-blur flex flex-col shrink-0 absolute md:relative z-20 h-full transition-all duration-300 -translate-x-full md:translate-x-0">
-            <!-- Tabs Header -->
-            <div class="flex border-b border-slate-800 bg-slate-900 shrink-0">
-                <button onclick="switchTab('text')" id="tab-text" class="flex-1 py-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 transition">📝 Teks & Foto</button>
-                <button onclick="switchTab('templates')" id="tab-templates" class="flex-1 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition">🎨 15 Template</button>
+        <!-- Video Monitor Container (9:16 Aspect Ratio) -->
+        <div id="playerContainer" class="relative h-full aspect-[9/16] max-w-full flex items-center justify-center">
+            
+            <!-- HTML5 Render Canvas -->
+            <canvas id="videoCanvas" width="1080" height="1920" class="h-full w-auto aspect-[9/16] object-contain shadow-2xl"></canvas>
+
+            <!-- Floating Video Play / Scrubber Controls Bar -->
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-capcut-card/90 backdrop-blur border border-capcut-border px-3 py-1.5 rounded-full flex items-center gap-2.5 w-[90%] max-w-[320px] shadow-2xl z-20">
+                <button id="playBtn" onclick="togglePlay()" class="w-7 h-7 rounded-full bg-capcut-accent text-slate-950 flex items-center justify-center font-bold text-xs shrink-0 active:scale-90 transition">
+                    <i class="fa-solid fa-play ml-0.5"></i>
+                </button>
+                <input type="range" id="timeScrubber" min="0" max="15" step="0.05" value="0" oninput="seekVideo(this.value)" class="flex-1">
+                <span id="timeDisplay" class="font-mono text-[10px] text-slate-300 w-9 text-right shrink-0">00:00</span>
             </div>
 
-            <!-- Tab 1: Upload & Text Editor -->
-            <div id="panel-text" class="p-3 space-y-3 overflow-y-auto flex-1 text-xs">
-                <!-- 1 Photo Upload Box -->
-                <div class="bg-gradient-to-r from-cyan-950/60 to-slate-900 border border-cyan-800/60 p-2.5 rounded-xl shadow-lg">
-                    <label class="text-[11px] font-bold text-cyan-300 block mb-1">📸 Upload 1 Foto Produk (Auto-Video 15s)</label>
-                    <input type="file" id="imageUploader" accept="image/*" onchange="handleImageUpload(event)" class="w-full text-slate-400 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:bg-cyan-500 file:text-slate-950 file:font-bold hover:file:bg-cyan-400 cursor-pointer bg-slate-950 p-1 rounded-lg border border-slate-800">
-                    <p class="text-[9px] text-slate-400 mt-1">*1 Foto ini otomatis digunakan di seluruh scene 0–15 detik.</p>
+            <!-- Scene Indicator Badge -->
+            <div class="absolute top-2 left-2 bg-black/60 backdrop-blur px-2.5 py-0.5 rounded-full text-[9px] font-semibold text-cyan-400 border border-white/10 flex items-center gap-1.5 pointer-events-none">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span id="sceneBadgeText">Scene 1 (0-5s)</span>
+            </div>
+        </div>
+
+        <!-- Exit Fullscreen Button -->
+        <button id="exitFullscreenBtn" onclick="exitFullscreen()" class="hidden fixed top-4 right-4 z-50 bg-black/80 text-white px-4 py-2 rounded-full border border-white/20 text-xs font-bold shadow-2xl">
+            <i class="fa-solid fa-xmark mr-1"></i> Keluar Fullscreen
+        </button>
+    </main>
+
+    <!-- 3. MOBILE EDITING PANELS (LOWER HALF - BOTTOM TABS) -->
+    <div class="flex-1 flex flex-col bg-capcut-bg overflow-hidden relative">
+        
+        <!-- Tab Content Area -->
+        <div class="flex-1 overflow-y-auto p-3">
+            
+            <!-- TAB 1: FOTO & TEKS -->
+            <div id="tab-content-text" class="space-y-3">
+                <!-- Auto-Video 1 Photo Uploader -->
+                <div class="bg-gradient-to-r from-cyan-950/40 to-capcut-panel border border-cyan-500/30 p-2.5 rounded-xl shadow">
+                    <label class="text-[11px] font-bold text-cyan-400 block mb-1 flex items-center justify-between">
+                        <span><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Upload 1 Foto Produk</span>
+                        <span class="text-[9px] text-slate-400 font-normal">Auto 15 Detik</span>
+                    </label>
+                    <input type="file" id="imageUploader" accept="image/*" onchange="handleImageUpload(event)" class="w-full text-slate-400 text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[11px] file:bg-capcut-accent file:text-slate-950 file:font-bold hover:file:bg-cyan-400 cursor-pointer bg-capcut-bg p-1 rounded-lg border border-capcut-border">
                 </div>
 
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Judul Utama (Scene 1)</label>
-                    <input type="text" id="inputTitle" value="DOMPET KULIT PREMIUM" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Nama Produk</label>
-                    <input type="text" id="inputSubtitle" value="Elegance Leather Edition" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Keunggulan (Scene 2 - Pisah Koma)</label>
-                    <textarea id="inputFeatures" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500 h-16">100% Kulit Sintetis, Slot Anti-RFID, Desain Slim Minimalis</textarea>
-                </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Harga Promo</label>
-                        <input type="text" id="inputPrice" value="Rp 99.000" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                        <label class="text-[10px] font-semibold text-slate-400 block mb-1">Judul Scene 1</label>
+                        <input type="text" id="inputTitle" value="DOMPET KULIT PREMIUM" oninput="updateConfig()" class="w-full bg-capcut-panel border border-capcut-border rounded-lg p-2 text-xs text-white focus:border-capcut-accent outline-none">
                     </div>
                     <div>
-                        <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Harga Coret</label>
-                        <input type="text" id="inputOldPrice" value="Rp 250.000" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                        <label class="text-[10px] font-semibold text-slate-400 block mb-1">Nama Produk</label>
+                        <input type="text" id="inputSubtitle" value="Elegance Leather Edition" oninput="updateConfig()" class="w-full bg-capcut-panel border border-capcut-border rounded-lg p-2 text-xs text-white focus:border-capcut-accent outline-none">
                     </div>
                 </div>
+
                 <div>
-                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Teks Tombol CTA</label>
-                    <input type="text" id="inputCta" value="BELI SEKARANG" oninput="updateConfig()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500">
+                    <label class="text-[10px] font-semibold text-slate-400 block mb-1">Keunggulan Scene 2 (Pisahkan Koma)</label>
+                    <input type="text" id="inputFeatures" value="100% Kulit Sapi Asli, Slot Anti-RFID, Desain Slim Minimalis" oninput="updateConfig()" class="w-full bg-capcut-panel border border-capcut-border rounded-lg p-2 text-xs text-white focus:border-capcut-accent outline-none">
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="text-[10px] font-semibold text-slate-400 block mb-1">Harga Promo</label>
+                        <input type="text" id="inputPrice" value="Rp 89.000" oninput="updateConfig()" class="w-full bg-capcut-panel border border-capcut-border rounded-lg p-2 text-xs text-white focus:border-capcut-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold text-slate-400 block mb-1">Harga Coret</label>
+                        <input type="text" id="inputOldPrice" value="Rp 199.000" oninput="updateConfig()" class="w-full bg-capcut-panel border border-capcut-border rounded-lg p-2 text-xs text-white focus:border-capcut-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-semibold text-slate-400 block mb-1">Teks CTA</label>
+                        <input type="text" id="inputCta" value="BELI SEKARANG" oninput="updateConfig()" class="w-full bg-capcut-panel border border-capcut-border rounded-lg p-2 text-xs text-white focus:border-capcut-accent outline-none">
+                    </div>
                 </div>
             </div>
 
-            <!-- Tab 2: 15 Modern Templates Grid -->
-            <div id="panel-templates" class="p-2 space-y-1.5 overflow-y-auto flex-1 hidden">
-                <div class="grid grid-cols-1 gap-1.5" id="templateGrid"></div>
+            <!-- TAB 2: 15 TEMPLATE MODERN -->
+            <div id="tab-content-templates" class="hidden">
+                <div class="grid grid-cols-2 gap-2" id="templateGrid"></div>
             </div>
-        </aside>
 
-        <!-- CENTER HERO: MAIN VIDEO EDITOR CANVAS -->
-        <main class="flex-1 bg-slate-950 flex flex-col items-center justify-center p-2 md:p-4 relative overflow-hidden">
-            <button id="exitFullscreenBtn" onclick="exitFullscreen()" class="hidden fixed top-4 right-4 z-50 bg-slate-900/90 hover:bg-slate-800 text-white px-4 py-2 rounded-full border border-slate-700 text-xs font-semibold">
-                ✖ Keluar Fullscreen (ESC)
+            <!-- TAB 3: TIMELINE TRACK -->
+            <div id="tab-content-timeline" class="hidden space-y-3">
+                <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                    <span>Struktur Video Vertikal 9:16</span>
+                    <span class="text-cyan-400 font-mono">Total: 15.0s</span>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="bg-capcut-panel p-2.5 rounded-lg border border-cyan-500/30 flex items-center justify-between text-xs" onclick="seekVideo(2.5)">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                            <span class="font-medium text-white">Scene 1: Intro Zoom</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">0.0s - 5.0s</span>
+                    </div>
+
+                    <div class="bg-capcut-panel p-2.5 rounded-lg border border-blue-500/30 flex items-center justify-between text-xs" onclick="seekVideo(7.5)">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+                            <span class="font-medium text-white">Scene 2: Slide Fitur</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">5.0s - 10.0s</span>
+                    </div>
+
+                    <div class="bg-capcut-panel p-2.5 rounded-lg border border-purple-500/30 flex items-center justify-between text-xs" onclick="seekVideo(12.5)">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                            <span class="font-medium text-white">Scene 3: Harga & CTA</span>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">10.0s - 15.0s</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CapCut Style Bottom Navigation Bar -->
+        <nav class="h-14 bg-capcut-card border-t border-capcut-border flex items-center justify-around shrink-0 z-30">
+            <button onclick="switchBottomTab('text')" id="btn-tab-text" class="flex flex-col items-center gap-1 text-cyan-400 active:scale-95 transition">
+                <i class="fa-solid fa-pen-to-square text-base"></i>
+                <span class="text-[10px] font-medium">Foto & Teks</span>
             </button>
+            <button onclick="switchBottomTab('templates')" id="btn-tab-templates" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white active:scale-95 transition">
+                <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+                <span class="text-[10px] font-medium">15 Template</span>
+            </button>
+            <button onclick="switchBottomTab('timeline')" id="btn-tab-timeline" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white active:scale-95 transition">
+                <i class="fa-solid fa-sliders text-base"></i>
+                <span class="text-[10px] font-medium">Timeline</span>
+            </button>
+        </nav>
 
-            <!-- Main Video Canvas Container -->
-            <div id="playerContainer" class="relative flex flex-col items-center justify-center h-full max-h-[82vh] w-full">
-                <!-- Vertical 9:16 Canvas -->
-                <canvas id="videoCanvas" width="1080" height="1920" class="h-full aspect-[9/16] bg-black rounded-2xl canvas-glow border border-slate-800/80 object-contain transition-all"></canvas>
-
-                <!-- Floating Controls Overlay over Canvas -->
-                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur border border-slate-700/80 rounded-full px-3 py-1.5 flex items-center space-x-2 shadow-2xl z-30 w-[90%] max-w-[340px]">
-                    <button id="playBtn" onclick="togglePlay()" class="w-8 h-8 rounded-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center font-bold transition text-xs shrink-0">
-                        ▶
-                    </button>
-                    <input type="range" id="timeScrubber" min="0" max="15" step="0.05" value="0" oninput="seekVideo(this.value)" class="flex-1 accent-cyan-400 h-1.5 bg-slate-700 rounded-lg cursor-pointer">
-                    <span id="timeDisplay" class="font-mono text-xs text-slate-300 w-10 text-right shrink-0">00:00</span>
-                </div>
-            </div>
-        </main>
     </div>
 
-    <!-- Bottom Timeline Track & Scene Indicator -->
-    <footer class="h-16 border-t border-slate-800/80 bg-slate-900/90 px-4 py-1.5 flex flex-col justify-between shrink-0 z-20">
-        <div class="flex items-center justify-between text-[11px] text-slate-400">
-            <span class="font-bold flex items-center gap-1 text-slate-200">⏱️ Timeline Editor (15 Detik)</span>
-            <div class="flex items-center space-x-3 text-[10px]">
-                <span class="text-cyan-400">0-5s Intro & Zoom</span>
-                <span class="text-blue-400">5-10s Fitur Slide</span>
-                <span class="text-purple-400">10-15s Promo & CTA</span>
-            </div>
-        </div>
-        
-        <!-- Timeline Bar Pointer -->
-        <div class="relative w-full h-6 bg-slate-950 rounded-lg border border-slate-800 overflow-hidden flex cursor-pointer" onclick="handleTimelineClick(event)">
-            <div class="w-1/3 h-full border-r border-slate-800 bg-cyan-950/30 px-2 py-0.5 text-[9px] font-semibold text-cyan-400 flex items-center truncate">Scene 1: Intro</div>
-            <div class="w-1/3 h-full border-r border-slate-800 bg-blue-950/30 px-2 py-0.5 text-[9px] font-semibold text-blue-400 flex items-center truncate">Scene 2: Fitur</div>
-            <div class="w-1/3 h-full bg-purple-950/30 px-2 py-0.5 text-[9px] font-semibold text-purple-400 flex items-center truncate">Scene 3: Promo CTA</div>
-            
-            <div id="playhead" class="absolute top-0 bottom-0 w-0.5 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] z-10 pointer-events-none" style="left: 0%;"></div>
-        </div>
-    </footer>
-
-    <!-- Main Application JavaScript Engine -->
+    <!-- JAVASCRIPT ENGINE -->
     <script>
-        const DURATION = 15;
+        const DURATION = 15.0;
         let canvas, ctx;
         let isPlaying = false;
         let currentTime = 0;
@@ -167,74 +246,73 @@
         let isExporting = false;
         let activeTemplate = 'luxe';
 
-        // Public Leather Wallet CDN Images
-        const walletImages = [
-            'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1000&q=80',
-            'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1000&q=80',
-            'https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&w=1000&q=80'
+        const defaultWalletImages = [
+            'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&w=800&q=80'
         ];
         let loadedImages = [];
 
-        // 15 Modern Templates Definition
+        // 15 Presets Definition
         const templates = {
-            luxe: { name: "Luxe Emerald", bg: ["#064e3b", "#022c22"], accent: "#34d399", text: "#ffffff", badge: "PREMIUM" },
-            cyber: { name: "Cyber Neon", bg: ["#0f172a", "#020617"], accent: "#38bdf8", text: "#f8fafc", badge: "HOT ITEM" },
-            flash: { name: "Flash Sale Red", bg: ["#7f1d1d", "#450a0a"], accent: "#fde047", text: "#ffffff", badge: "FLASH SALE 50%" },
-            korean: { name: "Korean Soft Pastel", bg: ["#fbcfe8", "#f472b6"], accent: "#831843", text: "#831843", badge: "TRENDING" },
-            clean: { name: "Clean Minimalist", bg: ["#f8fafc", "#e2e8f0"], accent: "#0f172a", text: "#0f172a", badge: "BEST SELLER" },
-            street: { name: "Urban Streetwear", bg: ["#18181b", "#09090b"], accent: "#facc15", text: "#ffffff", badge: "EXCLUSIVE" },
-            gold: { name: "Royal Gold", bg: ["#451a03", "#1a0400"], accent: "#fbbf24", text: "#fffbeb", badge: "LUXURY" },
-            sunset: { name: "Y2K Sunset", bg: ["#c026d3", "#4c1d95"], accent: "#f43f5e", text: "#ffffff", badge: "NEW ARRIVAL" },
-            tiktok: { name: "TikTok Viral", bg: ["#000000", "#111827"], accent: "#25f4ee", text: "#ffffff", badge: "VIRAL TIKTOK" },
-            autumn: { name: "Warm Autumn", bg: ["#78350f", "#27272a"], accent: "#fb923c", text: "#ffedd5", badge: "RECOMMENDED" },
-            purple: { name: "Midnight Purple", bg: ["#3b0764", "#0f172a"], accent: "#c084fc", text: "#ffffff", badge: "DISCOUNT" },
-            neon_pink: { name: "Electric Pink", bg: ["#831843", "#500724"], accent: "#f472b6", text: "#ffffff", badge: "LIMITED" },
-            dark_carbon: { name: "Carbon Fiber", bg: ["#171717", "#0a0a0a"], accent: "#22c55e", text: "#ffffff", badge: "ORIGINAL" },
-            ocean: { name: "Deep Ocean", bg: ["#0c4a6e", "#082f49"], accent: "#38bdf8", text: "#f0f9ff", badge: "SPECIAL" },
-            editorial: { name: "Magz Editorial", bg: ["#fafaf9", "#d6d3d1"], accent: "#1c1917", text: "#1c1917", badge: "OFFICIAL" }
+            luxe: { name: "1. Luxe Gold", bg: ["#042017", "#000000"], accent: "#34d399", text: "#ffffff", badge: "PREMIUM" },
+            cyber: { name: "2. Cyber Neon", bg: ["#0d001a", "#05000a"], accent: "#00f3ff", text: "#f8fafc", badge: "CYBER" },
+            flash: { name: "3. Flash Red", bg: ["#3a0007", "#000000"], accent: "#ffd700", text: "#ffffff", badge: "FLASH SALE" },
+            korean: { name: "4. Soft Pastel", bg: ["#fff0f3", "#ffc2d1"], accent: "#ff8fa3", text: "#831843", badge: "TRENDING" },
+            clean: { name: "5. Minimal White", bg: ["#f8fafc", "#cbd5e1"], accent: "#2563eb", text: "#0f172a", badge: "CLEAN" },
+            street: { name: "6. Urban Yellow", bg: ["#111111", "#000000"], accent: "#ffee00", text: "#ffffff", badge: "STREET" },
+            gold: { name: "7. Royal Velvet", bg: ["#2b1055", "#10002b"], accent: "#f43f5e", text: "#ffffff", badge: "LUXURY" },
+            sunset: { name: "8. Y2K Sunset", bg: ["#4c1d95", "#831843"], accent: "#fbbf24", text: "#ffffff", badge: "RETRO" },
+            tiktok: { name: "9. TikTok UGC", bg: ["#121212", "#000000"], accent: "#fe2c55", text: "#ffffff", badge: "VIRAL" },
+            autumn: { name: "10. Warm Autumn", bg: ["#3d261d", "#1f130e"], accent: "#e07a5f", text: "#ffedd5", badge: "ESTHETIC" },
+            purple: { name: "11. Midnight Violet", bg: ["#190628", "#0c0214"], accent: "#e0a96d", text: "#ffffff", badge: "ROYAL" },
+            neon_pink: { name: "12. Electric Magenta", bg: ["#7b2cbf", "#4cc9f0"], accent: "#00f5d4", text: "#ffffff", badge: "POP" },
+            dark_carbon: { name: "13. Stealth Carbon", bg: ["#09090b", "#000000"], accent: "#39ff14", text: "#ffffff", badge: "STEALTH" },
+            ocean: { name: "14. Deep Abstract", bg: ["#001219", "#0a9396"], accent: "#ff9e00", text: "#f0f9ff", badge: "OCEAN" },
+            editorial: { name: "15. Editorial Magz", bg: ["#ffffff", "#e2e8f0"], accent: "#e63946", text: "#1d3557", badge: "MAGZ" }
         };
 
         window.onload = function() {
             canvas = document.getElementById('videoCanvas');
             ctx = canvas.getContext('2d');
-            preloadImages(() => {
+            preloadDefaultImages(() => {
                 renderTemplateSelector();
                 drawScene();
                 setupFullscreenListeners();
             });
         };
 
-        function preloadImages(callback) {
-            let loadedCount = 0;
-            walletImages.forEach((src, idx) => {
+        function preloadDefaultImages(callback) {
+            let count = 0;
+            defaultWalletImages.forEach((src, idx) => {
                 const img = new Image();
                 img.crossOrigin = "anonymous";
                 img.src = src;
                 img.onload = () => {
                     loadedImages[idx] = img;
-                    loadedCount++;
-                    if (loadedCount === walletImages.length) callback();
+                    count++;
+                    if (count === defaultWalletImages.length) callback();
                 };
                 img.onerror = () => {
-                    loadedCount++;
-                    if (loadedCount === walletImages.length) callback();
+                    count++;
+                    if (count === defaultWalletImages.length) callback();
                 };
             });
         }
 
-        // FITUR KUNCI: 1 FOTO DIPAKAI DI SELURUH SCENE (0-15s)
+        // PERBAIKAN 1 FOTO DIPAKAI UNTUK SEMUA SCENE 0-15s
         function handleImageUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = function(evt) {
                 const img = new Image();
                 img.onload = function() {
-                    // Paksa mengganti ketiga elemen array dengan foto baru ini
+                    // Paksa mengganti array loadedImages dengan foto baru di semua scene
                     loadedImages = [img, img, img];
                     drawScene();
                 };
-                img.src = event.target.result;
+                img.src = evt.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -244,14 +322,14 @@
             grid.innerHTML = '';
             Object.keys(templates).forEach(key => {
                 const t = templates[key];
-                const activeClass = activeTemplate === key ? 'border-cyan-400 bg-slate-800' : 'border-slate-800 bg-slate-950 hover:border-slate-700';
+                const activeClass = activeTemplate === key ? 'border-cyan-400 bg-capcut-panel' : 'border-capcut-border bg-capcut-card';
                 grid.innerHTML += `
-                    <div onclick="selectTemplate('${key}')" class="p-2 rounded-lg border ${activeClass} cursor-pointer flex items-center justify-between transition">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-5 h-5 rounded-full border border-slate-700 shadow" style="background: linear-gradient(135deg, ${t.bg[0]}, ${t.bg[1]})"></div>
-                            <span class="text-xs font-medium text-slate-200">${t.name}</span>
+                    <div onclick="selectTemplate('${key}')" class="p-2 rounded-lg border ${activeClass} cursor-pointer flex items-center justify-between transition active:scale-95">
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-6 rounded shrink-0 shadow-sm" style="background: linear-gradient(to bottom, ${t.bg[0]}, ${t.bg[1]})"></div>
+                            <span class="text-[11px] font-medium text-white truncate">${t.name}</span>
                         </div>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded font-bold" style="background:${t.accent}20; color:${t.accent}">${t.badge}</span>
+                        <span class="text-[8px] font-bold px-1 py-0.5 rounded" style="background:${t.accent}20; color:${t.accent}">${t.badge}</span>
                     </div>
                 `;
             });
@@ -263,21 +341,25 @@
             drawScene();
         }
 
-        function switchTab(tab) {
-            document.getElementById('panel-text').classList.toggle('hidden', tab !== 'text');
-            document.getElementById('panel-templates').classList.toggle('hidden', tab !== 'templates');
-            document.getElementById('tab-text').className = tab === 'text' ? 'flex-1 py-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 transition' : 'flex-1 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent transition';
-            document.getElementById('tab-templates').className = tab === 'templates' ? 'flex-1 py-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 transition' : 'flex-1 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent transition';
-        }
+        function switchBottomTab(tab) {
+            document.getElementById('tab-content-text').classList.toggle('hidden', tab !== 'text');
+            document.getElementById('tab-content-templates').classList.toggle('hidden', tab !== 'templates');
+            document.getElementById('tab-content-timeline').classList.toggle('hidden', tab !== 'timeline');
 
-        function togglePanel() {
-            const panel = document.getElementById('sidePanel');
-            panel.classList.toggle('-translate-x-full');
+            const tabs = ['text', 'templates', 'timeline'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`btn-tab-${t}`);
+                if (t === tab) {
+                    btn.className = 'flex flex-col items-center gap-1 text-cyan-400 active:scale-95 transition';
+                } else {
+                    btn.className = 'flex flex-col items-center gap-1 text-slate-400 hover:text-white active:scale-95 transition';
+                }
+            });
         }
 
         function togglePlay() {
             isPlaying = !isPlaying;
-            document.getElementById('playBtn').innerText = isPlaying ? '⏸' : '▶';
+            document.getElementById('playBtn').innerHTML = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play ml-0.5"></i>';
             if (isPlaying) {
                 lastTimestamp = performance.now();
                 requestAnimationFrame(animationLoop);
@@ -288,12 +370,6 @@
             currentTime = parseFloat(time);
             updateUI();
             drawScene();
-        }
-
-        function handleTimelineClick(e) {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const clickPos = (e.clientX - rect.left) / rect.width;
-            seekVideo(clickPos * DURATION);
         }
 
         function animationLoop(timestamp) {
@@ -309,18 +385,21 @@
 
         function updateUI() {
             document.getElementById('timeScrubber').value = currentTime;
-            const pct = (currentTime / DURATION) * 100;
-            document.getElementById('playhead').style.left = `${pct}%`;
             const mins = Math.floor(currentTime / 60).toString().padStart(2, '0');
             const secs = Math.floor(currentTime % 60).toString().padStart(2, '0');
             document.getElementById('timeDisplay').innerText = `${mins}:${secs}`;
+
+            const sceneBadgeText = document.getElementById('sceneBadgeText');
+            if (currentTime < 5) sceneBadgeText.innerText = "Scene 1 (0-5s)";
+            else if (currentTime < 10) sceneBadgeText.innerText = "Scene 2 (5-10s)";
+            else sceneBadgeText.innerText = "Scene 3 (10-15s)";
         }
 
         function updateConfig() {
             drawScene();
         }
 
-        // CANVAS ANIMATION ENGINE
+        // CANVAS ANIMATION ENGINE (9:16 - 1080x1920)
         function drawScene() {
             if (!ctx) return;
             const t = templates[activeTemplate];
@@ -332,7 +411,7 @@
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, 1080, 1920);
 
-            // Timeline Branching
+            // Timeline Animation Branching
             if (currentTime < 5) {
                 drawScene1(currentTime, t);
             } else if (currentTime < 10) {
@@ -341,11 +420,11 @@
                 drawScene3(currentTime - 10, t);
             }
 
-            // Top Watermark Badge
+            // Top Watermark
             ctx.fillStyle = t.accent;
             ctx.font = 'bold 32px sans-serif';
             ctx.textAlign = 'right';
-            ctx.fillText(`PROMO 15s • ${t.badge}`, 1020, 100);
+            ctx.fillText(`PROMO 15s • ${t.badge}`, 1020, 90);
         }
 
         // Scene 1: Ken Burns Slow Zoom
@@ -358,7 +437,7 @@
             if (img) {
                 const scale = 1 + progress * 0.18;
                 ctx.save();
-                ctx.translate(540, 800);
+                ctx.translate(540, 780);
                 ctx.scale(scale, scale);
                 ctx.drawImage(img, -400, -400, 800, 800);
                 ctx.restore();
@@ -368,10 +447,10 @@
             const alpha = Math.min(time * 2, 1);
             ctx.save();
             ctx.globalAlpha = alpha;
-            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillStyle = 'rgba(0,0,0,0.6)';
             ctx.fillRect(100, textY - 120, 880, 240);
             ctx.fillStyle = t.accent;
-            ctx.font = 'bold 64px sans-serif';
+            ctx.font = 'bold 60px sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(title, 540, textY);
             ctx.fillStyle = t.text;
@@ -380,7 +459,7 @@
             ctx.restore();
         }
 
-        // Scene 2: Parallax Float & Features
+        // Scene 2: Parallax Floating & Features
         function drawScene2(time, t) {
             const img = loadedImages[1] || loadedImages[0];
             const features = document.getElementById('inputFeatures').value.split(',');
@@ -402,17 +481,17 @@
                     const itemAlpha = Math.min((time - delayTime) * 2, 1);
                     ctx.save();
                     ctx.globalAlpha = itemAlpha;
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
                     ctx.fillRect(100, 1250 + (idx * 110), 880, 85);
                     ctx.fillStyle = t.accent;
-                    ctx.font = 'bold 40px sans-serif';
+                    ctx.font = 'bold 38px sans-serif';
                     ctx.fillText(`✓ ${feat.trim()}`, 140, 1310 + (idx * 110));
                     ctx.restore();
                 }
             });
         }
 
-        // Scene 3: Bounce Scale + Price Tag & Pulsing CTA
+        // Scene 3: Bounce Zoom & Price Offer
         function drawScene3(time, t) {
             const img = loadedImages[2] || loadedImages[0];
             const price = document.getElementById('inputPrice').value;
@@ -428,21 +507,20 @@
                 ctx.restore();
             }
 
-            // Old Strikethrough Price
+            // Old Price Strike
             ctx.textAlign = 'center';
             ctx.fillStyle = 'rgba(255,255,255,0.6)';
             ctx.font = '40px sans-serif';
             ctx.fillText(oldPrice, 540, 950);
-            ctx.strokeStyle = 'red';
+            ctx.strokeStyle = '#ff4757';
             ctx.lineWidth = 6;
             ctx.beginPath();
-            ctx.moveTo(380, 935);
-            ctx.lineTo(700, 935);
+            ctx.moveTo(380, 935); ctx.lineTo(700, 935);
             ctx.stroke();
 
             // Promo Price
             ctx.fillStyle = t.accent;
-            ctx.font = 'bold 100px sans-serif';
+            ctx.font = 'bold 96px sans-serif';
             ctx.fillText(price, 540, 1080);
 
             // CTA Button Pulsing
@@ -452,16 +530,16 @@
             ctx.scale(pulse, pulse);
             ctx.fillStyle = t.accent;
             ctx.shadowColor = t.accent;
-            ctx.shadowBlur = 30;
+            ctx.shadowBlur = 25;
             ctx.fillRect(-350, -70, 700, 140);
             ctx.fillStyle = '#000000';
-            ctx.font = 'bold 50px sans-serif';
+            ctx.font = 'bold 48px sans-serif';
             ctx.shadowBlur = 0;
-            ctx.fillText(cta, 0, 20);
+            ctx.fillText(cta, 0, 18);
             ctx.restore();
         }
 
-        // Export MediaRecorder System (Pas 15s)
+        // Export Recorder (Pas 15 Detik)
         function startExport() {
             if (isExporting) return;
             isExporting = true;
@@ -495,7 +573,7 @@
                 isExporting = false;
                 exportBtn.disabled = false;
                 exportBtn.classList.remove('animate-pulse');
-                exportBtn.innerHTML = `<span>⬇️ Export 15s</span>`;
+                exportBtn.innerHTML = `<i class="fa-solid fa-download"></i><span>Export 15s</span>`;
                 isPlaying = true;
                 requestAnimationFrame(animationLoop);
             };
